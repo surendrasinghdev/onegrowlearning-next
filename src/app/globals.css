@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand colours taken from the existing Onegrow site and logo */
+  --color-brand: #ee5602;
+  --color-brand-dark: #c94600;
+  --color-amber: #f5941c;
+  --color-navy: #06155b;
+  --color-navy-deep: #040e40;
+  --color-peach: #fff4ef;
+  --color-cream: #fffaf6;
+  --color-ink: #1b2133;
+  --color-muted: #5a6275;
+  --color-line: #ebe4de;
+
+  --color-sun: #fff1d6;
+  --color-mint: #eef6e4;
+
+  --font-display: var(--font-outfit), system-ui, sans-serif;
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+
+  --animate-marquee: marquee 40s linear infinite;
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  --shadow-card: 0 1px 2px rgb(6 21 91 / 0.04), 0 8px 24px -12px rgb(6 21 91 / 0.18);
+  --shadow-lift: 0 2px 4px rgb(6 21 91 / 0.05), 0 24px 48px -20px rgb(6 21 91 / 0.35);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+h1,
+h2 {
+  font-family: var(--font-display);
+  letter-spacing: -0.005em;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+/* Custom dropdown arrow for every select, set a little in from the right edge */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235a6275' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+  padding-right: 2.75rem;
+}
+
+/* Thin grid lines used on dark sections */
+.bg-grid {
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+::selection {
+  background: var(--color-brand);
+  color: white;
+}
+
+dialog::backdrop {
+  background: rgb(4 14 64 / 0.55);
+  backdrop-filter: blur(2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
