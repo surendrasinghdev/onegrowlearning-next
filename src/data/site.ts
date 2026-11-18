@@ -26,8 +26,8 @@ export const announcements = [
   "Help with education loans",
 ];
 
+// Programs are reached through the "Explore courses" mega menu (components/MegaMenu.tsx).
 export const nav = [
-  { label: "Programs", href: "/popular-programs/" },
   { label: "Universities", href: "/our-partners/" },
   { label: "About Us", href: "/about-us/" },
   { label: "Refer & Earn", href: "/circle-of-excellence-referee/" },

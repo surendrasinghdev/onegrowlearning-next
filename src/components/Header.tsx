@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { nav, site } from "@/data/site";
 import { useEnquiry } from "./Enquiry";
 import { CloseIcon, MenuIcon, PhoneIcon } from "./icons";
+import { MegaMenu, MobileCourses } from "./MegaMenu";
 
 // The floating header takes 76px (pt-3 + h-16). Pages with a dark hero use -mt-[76px] to sit under it.
 export function Header() {
@@ -37,6 +38,8 @@ export function Header() {
         <Link href="/" className="shrink-0" aria-label="Onegrow Learning home" onClick={() => setOpen(false)}>
           <Image src={asset("/images/brand/logo-dark.png")} alt="Onegrow Learning" width={640} height={209} className="h-9 w-auto" preload />
         </Link>
+
+        <MegaMenu />
 
         <nav aria-label="Main" className="ml-auto hidden lg:block">
           <ul className="flex items-center">
@@ -78,8 +81,9 @@ export function Header() {
         </div>
 
         {open && (
-          <div id="mobile-menu" className="absolute inset-x-0 top-full mt-2 rounded-2xl bg-white p-4 shadow-lift lg:hidden">
-            <nav aria-label="Mobile">
+          <div id="mobile-menu" className="absolute inset-x-0 top-full mt-2 max-h-[calc(100dvh-6rem)] overflow-y-auto overscroll-contain rounded-2xl bg-white p-4 shadow-lift lg:hidden">
+            <MobileCourses onNavigate={() => setOpen(false)} />
+            <nav aria-label="Mobile" className="mt-2">
               <ul className="divide-y divide-line">
                 {[{ label: "Home", href: "/" }, ...nav].map((n) => (
                   <li key={n.href}>
