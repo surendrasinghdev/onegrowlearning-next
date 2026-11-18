@@ -4,6 +4,7 @@ import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { EnquiryProvider } from "@/components/Enquiry";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { site } from "@/data/site";
 import "./globals.css";
@@ -25,13 +26,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en-IN" className={`${outfit.variable} ${dmSans.variable} h-full antialiased`}>
+    <html lang="en-IN" data-scroll-behavior="smooth" className={`${outfit.variable} ${dmSans.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col overflow-x-clip">
         <EnquiryProvider>
           <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-full focus:bg-navy focus:px-4 focus:py-2 focus:text-white">
             Skip to content
           </a>
           <AnnouncementBar />
+          <ScrollToTop />
           <Header />
           <main id="main" className="flex-1">
             {children}
