@@ -25,8 +25,8 @@ export default function ThankYouPage() {
   return (
     <>
       <section className="relative -mt-[76px] overflow-hidden bg-navy-deep pt-[76px] text-white">
-        <div aria-hidden="true" className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_70%)]" />
-        <div aria-hidden="true" className="absolute -top-32 left-1/2 size-[36rem] -translate-x-1/2 rounded-full bg-brand/25 blur-[120px]" />
+        <div aria-hidden="true" className="bg-grid absolute inset-0 hidden lg:block [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_70%)]" />
+        <div aria-hidden="true" className="absolute -top-32 left-1/2 size-[36rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(238_86_2/0.32),transparent)]" />
         <div className={`${container} relative py-20 text-center sm:py-28`}>
           <span className="mx-auto grid size-20 place-items-center rounded-full bg-green-400/15 text-green-300 ring-8 ring-green-400/10">
             <CheckIcon className="size-10" />

@@ -31,7 +31,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 px-3 pt-3 sm:px-4">
       <div
-        className={`relative mx-auto flex h-16 max-w-site items-center gap-4 rounded-2xl bg-white/95 pr-2 pl-4 backdrop-blur transition-shadow sm:pl-5 ${
+        className={`relative mx-auto flex h-16 max-w-site items-center gap-4 rounded-2xl bg-white pr-2 pl-4 transition-shadow lg:bg-white/95 lg:backdrop-blur sm:pl-5 ${
           scrolled ? "shadow-lift" : "shadow-card"
         }`}
       >

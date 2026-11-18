@@ -22,7 +22,7 @@ export function SectionNav({ items }: { items: { id: string; label: string }[] }
   }, [items]);
 
   return (
-    <nav aria-label="On this page" className="sticky top-[84px] z-30 border-b border-line bg-white/90 backdrop-blur">
+    <nav aria-label="On this page" className="sticky top-[84px] z-30 border-b border-line bg-white lg:bg-white/90 lg:backdrop-blur">
       <ul className="no-scrollbar mx-auto flex max-w-site-px gap-1 overflow-x-auto px-4 py-2.5 sm:px-6 lg:px-8">
         {items.map((i) => (
           <li key={i.id}>

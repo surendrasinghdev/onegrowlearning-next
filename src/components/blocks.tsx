@@ -73,9 +73,9 @@ export function PageHero({
 }) {
   return (
     <section className="relative -mt-[76px] overflow-hidden bg-navy-deep pt-[76px] text-white">
-      <div aria-hidden="true" className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_top_left,black_30%,transparent_70%)]" />
-      <div aria-hidden="true" className="absolute -top-32 left-1/4 size-[36rem] rounded-full bg-brand/25 blur-[120px]" />
-      <div aria-hidden="true" className="absolute right-0 -bottom-40 size-[26rem] rounded-full bg-amber/15 blur-[100px]" />
+      <div aria-hidden="true" className="bg-grid absolute inset-0 hidden lg:block [mask-image:radial-gradient(ellipse_at_top_left,black_30%,transparent_70%)]" />
+      <div aria-hidden="true" className="absolute -top-32 left-1/4 size-[36rem] rounded-full bg-[radial-gradient(closest-side,rgb(238_86_2/0.32),transparent)]" />
+      <div aria-hidden="true" className="absolute right-0 -bottom-40 size-[26rem] rounded-full bg-[radial-gradient(closest-side,rgb(245_148_28/0.22),transparent)]" />
 
       <div className={`${container} relative grid items-center gap-10 pt-10 pb-16 lg:grid-cols-[1fr_auto] lg:gap-16 lg:pt-14 lg:pb-20`}>
         <div className="max-w-2xl">
@@ -106,7 +106,7 @@ export function PageHero({
           image && (
             <div className="relative mx-auto hidden w-[340px] lg:block">
               <div className="relative h-[400px] overflow-hidden rounded-t-[999px] rounded-b-3xl ring-1 ring-white/15">
-                <Image src={image} alt={imageAlt} fill sizes="340px" className="object-cover" preload />
+                <Image src={image} alt={imageAlt} fill sizes="340px" className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/50 via-transparent" />
               </div>
               {chip && (
@@ -130,9 +130,9 @@ export function Hero() {
   const programs = ["MBA", "MCA", "BBA", "BCA", "B.Com", "M.Com", "MA", "MA JMC"];
   return (
     <section className="relative -mt-[76px] overflow-hidden bg-navy-deep pt-[76px] text-white">
-      <div aria-hidden="true" className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_top_left,black_30%,transparent_75%)]" />
-      <div aria-hidden="true" className="absolute -top-32 left-1/3 size-[40rem] rounded-full bg-brand/25 blur-[120px]" />
-      <div aria-hidden="true" className="absolute right-0 -bottom-40 size-[28rem] rounded-full bg-amber/15 blur-[100px]" />
+      <div aria-hidden="true" className="bg-grid absolute inset-0 hidden lg:block [mask-image:radial-gradient(ellipse_at_top_left,black_30%,transparent_75%)]" />
+      <div aria-hidden="true" className="absolute -top-32 left-1/3 size-[40rem] rounded-full bg-[radial-gradient(closest-side,rgb(238_86_2/0.32),transparent)]" />
+      <div aria-hidden="true" className="absolute right-0 -bottom-40 size-[28rem] rounded-full bg-[radial-gradient(closest-side,rgb(245_148_28/0.22),transparent)]" />
 
       <div className={`${container} relative grid gap-10 pt-12 pb-16 lg:grid-cols-[1fr_400px] lg:pt-16 lg:pb-20 xl:grid-cols-[1fr_250px_400px] xl:gap-8`}>
         {/* Copy */}
@@ -185,7 +185,7 @@ export function Hero() {
         {/* Photo with floating facts (wide screens only) */}
         <div className="relative hidden xl:block">
           <div className="relative mt-6 h-[440px] overflow-hidden rounded-t-[999px] rounded-b-3xl ring-1 ring-white/15">
-            <Image src={asset("/images/photos/hero-professional.webp")} alt="Working professional studying an online degree" fill sizes="250px" className="object-cover" preload />
+            <Image src={asset("/images/photos/hero-professional.webp")} alt="Working professional studying an online degree" fill sizes="250px" className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/60 via-transparent" />
           </div>
           <div className="absolute top-24 -left-12 rounded-2xl bg-white px-4 py-3 text-ink shadow-lift">
@@ -346,7 +346,7 @@ export function Advantage() {
           ))}
 
           <div className="relative overflow-hidden rounded-3xl bg-navy p-7 text-white md:col-span-1 lg:col-span-2">
-            <div aria-hidden="true" className="absolute -right-10 -bottom-16 size-48 rounded-full bg-brand/40 blur-2xl" />
+            <div aria-hidden="true" className="absolute -right-10 -bottom-16 size-48 rounded-full bg-[radial-gradient(closest-side,rgb(238_86_2/0.55),transparent)]" />
             <WalletIcon className="relative size-8 text-amber" />
             <p className="relative mt-5 text-white/70">No-cost EMI starting at</p>
             <p className="relative font-display text-5xl font-semibold">

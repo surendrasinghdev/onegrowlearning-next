@@ -128,10 +128,10 @@ function CourseHero({ course: c, detail }: { course: Course; detail: CourseDetai
   return (
     <section className="relative -mt-[76px] overflow-hidden bg-navy-deep pt-[76px] text-white">
       <div aria-hidden="true" className="absolute inset-y-0 right-0 hidden w-[55%] lg:block">
-        <Image src={courseImage(c)} alt="" fill sizes="55vw" className="object-cover opacity-30 [mask-image:linear-gradient(to_right,transparent,black_60%)]" preload />
+        <Image src={courseImage(c)} alt="" fill sizes="55vw" className="object-cover opacity-30 [mask-image:linear-gradient(to_right,transparent,black_60%)]" />
       </div>
-      <div aria-hidden="true" className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_top_left,black_30%,transparent_70%)]" />
-      <div aria-hidden="true" className="absolute -top-32 left-1/4 size-[36rem] rounded-full bg-brand/25 blur-[120px]" />
+      <div aria-hidden="true" className="bg-grid absolute inset-0 hidden lg:block [mask-image:radial-gradient(ellipse_at_top_left,black_30%,transparent_70%)]" />
+      <div aria-hidden="true" className="absolute -top-32 left-1/4 size-[36rem] rounded-full bg-[radial-gradient(closest-side,rgb(238_86_2/0.32),transparent)]" />
 
       <div className={`${container} relative grid gap-10 pt-10 pb-16 lg:grid-cols-[1fr_400px] lg:gap-14 lg:pt-14 lg:pb-20`}>
         <div>
@@ -172,7 +172,7 @@ function CourseHero({ course: c, detail }: { course: Course; detail: CourseDetai
 
           <dl className="mt-8 grid max-w-2xl grid-cols-2 gap-3 sm:grid-cols-4">
             {facts.map((f) => (
-              <div key={f.label} className="rounded-2xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur">
+              <div key={f.label} className="rounded-2xl border border-white/10 bg-white/[0.06] p-4">
                 <f.icon className="size-5 text-amber" />
                 <dt className="mt-3 text-xs text-white/60">{f.label}</dt>
                 <dd className="mt-0.5 font-display text-lg leading-tight font-semibold">
@@ -381,7 +381,7 @@ function Fees({ course: c }: { course: Course }) {
         </div>
         <div className="mt-10 grid gap-4 lg:grid-cols-[1.2fr_1fr_1fr]">
           <div className="relative overflow-hidden rounded-3xl bg-navy p-7 text-white">
-            <div aria-hidden="true" className="absolute -right-10 -bottom-16 size-48 rounded-full bg-brand/40 blur-2xl" />
+            <div aria-hidden="true" className="absolute -right-10 -bottom-16 size-48 rounded-full bg-[radial-gradient(closest-side,rgb(238_86_2/0.55),transparent)]" />
             <p className="relative text-white/70">Total course fee{semesters ? ` (${semesters} semesters)` : ""}</p>
             <p className="relative mt-1 font-display text-5xl font-semibold">{c.fee ? formatINR(c.fee) : "On request"}</p>
             {c.regularFee && (
