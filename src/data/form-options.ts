@@ -17,3 +17,5 @@ export const profiles = [
 ];
 
 export const NOT_SURE = "not-sure";
+/** Extra choice on the referral form, carried over from the old site. */
+export const STUDY_ABROAD = "study-abroad";

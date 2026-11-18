@@ -140,11 +140,12 @@ export function CourseExplorer() {
   );
 }
 
-function CourseCard({ course: c }: { course: Course }) {
+/** A program card. Sized for a carousel row by default; pass `grid` when it sits in a CSS grid. */
+export function CourseCard({ course: c, grid }: { course: Course; grid?: boolean }) {
   const u = universities[c.university];
   const tags = courseTags(c);
   return (
-    <li className="group flex w-[85%] shrink-0 snap-start sm:w-[45%] lg:w-[calc(25%-15px)]">
+    <li className={`group flex ${grid ? "" : "w-[85%] shrink-0 snap-start sm:w-[45%] lg:w-[calc(25%-15px)]"}`}>
       <article className="relative flex w-full flex-col overflow-hidden rounded-3xl border border-line bg-white shadow-card transition hover:-translate-y-1 hover:shadow-lift">
         <div className="relative aspect-[16/10] overflow-hidden">
           <Image src={courseImage(c)} alt="" fill sizes="(min-width: 1024px) 300px, (min-width: 640px) 45vw, 85vw" className="object-cover transition duration-500 group-hover:scale-105" />

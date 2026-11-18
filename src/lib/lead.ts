@@ -1,12 +1,12 @@
 // Lead form parsing and validation, shared by the server action (email) and the
 // static GitHub Pages build (WhatsApp).
 import { courses, universities, type Course } from "@/data/courses";
-import { NOT_SURE, profiles, states } from "@/data/form-options";
+import { NOT_SURE, profiles, states, STUDY_ABROAD } from "@/data/form-options";
 
 export type LeadState = {
   status: "idle" | "success" | "error";
   message?: string;
-  errors?: Partial<Record<"name" | "phone" | "email" | "course" | "consent", string>>;
+  errors?: Partial<Record<"name" | "phone" | "email" | "course" | "consent" | "organisation" | "referredBy", string>>;
   /** Static build only: WhatsApp link that carries the lead to the counsellor. */
   whatsappHref?: string;
 };
@@ -38,18 +38,35 @@ export function parseLead(formData: FormData): Lead | null | { errors: NonNullab
   const profile = clean(formData.get("profile"), 60);
   const source = clean(formData.get("source"), 120);
   const consent = formData.get("consent") === "on";
+  // Referral form only
+  const isReferral = formData.get("form") === "referral";
+  const organisation = clean(formData.get("organisation"), 120);
+  const referredBy = clean(formData.get("referredBy"), 120);
 
   const errors: NonNullable<LeadState["errors"]> = {};
+  if (isReferral && organisation.length < 2) errors.organisation = "Please enter your college or company.";
+  if (isReferral && referredBy.length < 2) errors.referredBy = "Please tell us who referred you.";
   if (name.length < 2) errors.name = "Please enter your name.";
   const digits = phone.replace(/\D/g, "");
   if (digits.length < 10 || digits.length > 13) errors.phone = "Please enter a valid mobile number.";
   if (!EMAIL_RE.test(email)) errors.email = "Please enter a valid email.";
   const course = courses.find((c) => c.slug === courseSlug);
-  if (!course && courseSlug !== NOT_SURE) errors.course = "Please choose a program.";
+  if (!course && courseSlug !== NOT_SURE && !(isReferral && courseSlug === STUDY_ABROAD)) errors.course = "Please choose a program.";
   if (!consent) errors.consent = "Please agree so our counsellor can contact you.";
   if (Object.keys(errors).length) return { errors };
 
-  const courseText = course ? `${course.code}: ${course.name} (${universities[course.university].name})` : "Not sure yet, needs guidance";
+  const courseText = course
+    ? `${course.code}: ${course.name} (${universities[course.university].name})`
+    : courseSlug === STUDY_ABROAD
+      ? "Study abroad"
+      : "Not sure yet, needs guidance";
+  const referralRows: [string, string][] = isReferral
+    ? [
+        ["Lead type", "Referral (Circle of Excellence)"],
+        ["College / company", organisation],
+        ["Referred by", referredBy],
+      ]
+    : [];
 
   return {
     name,
@@ -63,6 +80,7 @@ export function parseLead(formData: FormData): Lead | null | { errors: NonNullab
       ["Program", courseText],
       ["State", states.includes(state) ? state : "-"],
       ["Profile", profiles.includes(profile) ? profile : "-"],
+      ...referralRows,
       ["Form on", source || "-"],
     ],
   };

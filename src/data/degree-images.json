@@ -1,0 +1,77 @@
+{
+ "master-of-business-administration-muj": {
+  "src": "/images/degrees/master-of-business-administration-muj.webp",
+  "width": 960,
+  "height": 735
+ },
+ "master-of-computer-application": {
+  "src": "/images/degrees/master-of-computer-application.webp",
+  "width": 960,
+  "height": 734
+ },
+ "master-of-commerce": {
+  "src": "/images/degrees/master-of-commerce.webp",
+  "width": 960,
+  "height": 734
+ },
+ "master-of-arts-economics": {
+  "src": "/images/degrees/master-of-arts-economics.webp",
+  "width": 960,
+  "height": 734
+ },
+ "master-of-arts-in-journalism-mass-communication-online-ma-jmc": {
+  "src": "/images/degrees/master-of-arts-in-journalism-mass-communication-online-ma-jmc.webp",
+  "width": 960,
+  "height": 734
+ },
+ "bachelor-of-business-administration": {
+  "src": "/images/degrees/bachelor-of-business-administration.webp",
+  "width": 960,
+  "height": 734
+ },
+ "bachelor-of-commerce-muj": {
+  "src": "/images/degrees/bachelor-of-commerce-muj.webp",
+  "width": 960,
+  "height": 734
+ },
+ "master-of-business-administration": {
+  "src": "/images/degrees/master-of-business-administration.webp",
+  "width": 960,
+  "height": 734
+ },
+ "master-of-computer-application-smu": {
+  "src": "/images/degrees/master-of-computer-application-smu.webp",
+  "width": 960,
+  "height": 735
+ },
+ "master-of-commerce-smu": {
+  "src": "/images/degrees/master-of-commerce-smu.webp",
+  "width": 960,
+  "height": 735
+ },
+ "master-of-arts-english": {
+  "src": "/images/degrees/master-of-arts-english.webp",
+  "width": 960,
+  "height": 734
+ },
+ "master-of-arts-sociology": {
+  "src": "/images/degrees/master-of-arts-sociology.webp",
+  "width": 960,
+  "height": 734
+ },
+ "master-of-arts-political-science": {
+  "src": "/images/degrees/master-of-arts-political-science.webp",
+  "width": 960,
+  "height": 734
+ },
+ "bachelor-of-arts": {
+  "src": "/images/degrees/bachelor-of-arts.webp",
+  "width": 960,
+  "height": 735
+ },
+ "bachelor-of-commerce": {
+  "src": "/images/degrees/bachelor-of-commerce.webp",
+  "width": 960,
+  "height": 735
+ }
+}

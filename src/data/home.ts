@@ -103,3 +103,19 @@ export const faqs = [
     a: "Yes, through our specialised programs. These internships give you hands-on experience and help you build skills for your career. Contact us to know about current openings.",
   },
 ];
+
+/** Rankings and approvals relevant to one university, for its course pages. */
+export function accreditationsFor(uni: "muj" | "smu" | "shoolini" | "welingkar") {
+  const pick = (...names: string[]) => accreditations.filter((a) => names.includes(a.name));
+  const naac = (who: string) => ({ ...accreditations.find((a) => a.name === "NAAC A+")!, detail: `${who} is accredited with NAAC A+` });
+  switch (uni) {
+    case "muj":
+      return [...pick("NIRF 2025"), naac("Manipal University Jaipur"), ...pick("UGC-entitled", "AICTE", "WES", "ICAS", "ICES")];
+    case "smu":
+      return [naac("Sikkim Manipal University"), ...pick("UGC-entitled", "AICTE", "WES", "ICAS", "ICES")];
+    case "shoolini":
+      return pick("THE Rankings", "UGC-entitled", "WES", "ICAS");
+    default:
+      return [];
+  }
+}

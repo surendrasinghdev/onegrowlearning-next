@@ -12,6 +12,8 @@ export type University = {
   location: string;
   logo?: { src: string; width: number; height: number };
   highlights: string[];
+  about: string;
+  photo?: string;
 };
 
 export const universities: Record<UniversityId, University> = {
@@ -22,6 +24,8 @@ export const universities: Record<UniversityId, University> = {
     location: "Jaipur, Rajasthan",
     logo: { src: asset("/images/universities/muj.png"), width: 480, height: 136 },
     highlights: ["NAAC A+", "UGC-entitled", "AICTE approved"],
+    about: "A NAAC A+ accredited university in Jaipur, ranked 58 among India's top universities in NIRF 2025. Its UGC-entitled online degrees, delivered through Online Manipal, carry the same university seal and come with no-cost EMI and scholarships of up to 20%.",
+    photo: asset("/images/photos/campus-muj.webp"),
   },
   smu: {
     id: "smu",
@@ -30,6 +34,8 @@ export const universities: Record<UniversityId, University> = {
     location: "Gangtok, Sikkim",
     logo: { src: asset("/images/universities/smu.png"), width: 480, height: 115 },
     highlights: ["NAAC A+", "UGC-entitled", "Affordable fees"],
+    about: "Part of the Manipal group and NAAC A+ accredited, Sikkim Manipal University in Gangtok is known for some of the most affordable UGC-entitled online degrees, from BA and B.Com to MBA and MCA, with easy EMIs.",
+    photo: asset("/images/photos/campus-smu.webp"),
   },
   shoolini: {
     id: "shoolini",
@@ -37,6 +43,7 @@ export const universities: Record<UniversityId, University> = {
     short: "Shoolini",
     location: "Solan, Himachal Pradesh",
     highlights: ["UGC-entitled", "Pay After Placement option", "Scholarships"],
+    about: "Ranked India's No. 1 private university by THE and QS (2023-24), Shoolini University in Solan, Himachal Pradesh offers fully online, UGC-entitled MBA, MCA, BBA, BCA and MA programs, with scholarships and a Pay After Placement option.",
   },
   welingkar: {
     id: "welingkar",
@@ -44,6 +51,7 @@ export const universities: Record<UniversityId, University> = {
     short: "WeSchool",
     location: "Mumbai campus",
     highlights: ["Full-time, on campus", "11 months", "Harvard ManageMentor access"],
+    about: "Prin. L. N. Welingkar Institute of Management Development & Research (WeSchool) in Mumbai runs full-time, on-campus PG programs for next-generation business owners and future media professionals.",
   },
 };
 
@@ -131,14 +139,19 @@ export function courseLabel(c: Course) {
 /** Card photo for a course, picked by subject (photos live in public/images/photos). */
 export function courseImage(c: Course) {
   const code = c.code.toLowerCase();
-  if (c.slug.includes("media") || code.includes("jmc")) return asset("/images/photos/media.webp");
-  if (c.university === "welingkar") return asset("/images/photos/business.webp");
-  if (code.includes("mba")) return asset("/images/photos/mba.webp");
-  if (code.includes("mca") || code.includes("bca")) return asset("/images/photos/computers.webp");
-  if (code.includes("bba")) return asset("/images/photos/bba.webp");
-  if (code.includes("com")) return asset("/images/photos/commerce.webp");
-  if (code === "ba") return asset("/images/photos/student.webp");
-  return asset("/images/photos/arts.webp");
+  // A few photos per subject; each university gets a different one so related cards don't repeat.
+  const pick = (...names: string[]) => {
+    const i = ["muj", "smu", "shoolini", "welingkar"].indexOf(c.university);
+    return asset(`/images/photos/${names[i % names.length]}.webp`);
+  };
+  if (c.slug.includes("media") || code.includes("jmc")) return pick("media");
+  if (c.university === "welingkar") return pick("business");
+  if (code.includes("mba")) return pick("mba", "hero-professional", "lecture");
+  if (code.includes("mca") || code.includes("bca")) return pick("computers", "lecture", "bba");
+  if (code.includes("bba")) return pick("bba", "graduate-2", "graduate-2");
+  if (code.includes("com")) return pick("commerce", "graduate");
+  if (code === "ba") return pick("student", "student");
+  return pick("arts", "graduate-3", "graduate-3");
 }
 
 /** Short, factual highlights shown on course cards. */

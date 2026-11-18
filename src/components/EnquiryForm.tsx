@@ -1,10 +1,10 @@
 "use client";
 
-import { useActionState, useId } from "react";
+import { useActionState, useId, useTransition } from "react";
 import { submitLead } from "@/app/actions";
 import type { LeadState } from "@/lib/lead";
 import { courses, universities, type UniversityId } from "@/data/courses";
-import { NOT_SURE, profiles, states } from "@/data/form-options";
+import { NOT_SURE, profiles, states, STUDY_ABROAD } from "@/data/form-options";
 import { site } from "@/data/site";
 import { CheckIcon, WhatsAppIcon } from "./icons";
 
@@ -17,14 +17,27 @@ export function EnquiryForm({
   defaultCourse,
   source,
   submitLabel = "Get free counselling",
+  variant = "default",
 }: {
   defaultCourse?: string;
   source: string;
   submitLabel?: string;
+  /** "referral" adds college/company and referred-by fields (Refer & Earn page). */
+  variant?: "default" | "referral";
 }) {
   const [state, action, pending] = useActionState(submitLead, initial);
+  const [, startTransition] = useTransition();
   const id = useId();
   const err = state.errors ?? {};
+  const referral = variant === "referral";
+
+  // Submitting through onSubmit (instead of <form action>) stops React from clearing
+  // what the visitor typed when the server sends back validation errors.
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    startTransition(() => action(data));
+  };
 
   if (state.status === "success" && state.whatsappHref) {
     // Static site: the lead reaches the counsellor once the visitor sends it on WhatsApp.
@@ -73,8 +86,9 @@ export function EnquiryForm({
   const byUni = Object.keys(universities) as UniversityId[];
 
   return (
-    <form action={action} noValidate className="grid gap-3">
+    <form onSubmit={onSubmit} noValidate className="grid gap-3">
       <input type="hidden" name="source" value={source} />
+      {referral && <input type="hidden" name="form" value="referral" />}
       <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
         <label>
           Company <input type="text" name="company" tabIndex={-1} autoComplete="off" />
@@ -97,12 +111,24 @@ export function EnquiryForm({
         </Field>
       </div>
 
+      {referral && (
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Field id={`${id}-org`} label="College / company" error={err.organisation}>
+            <input id={`${id}-org`} name="organisation" autoComplete="organization" placeholder="Where you study or work" required className={field} aria-invalid={!!err.organisation} />
+          </Field>
+          <Field id={`${id}-ref`} label="Referred by" error={err.referredBy}>
+            <input id={`${id}-ref`} name="referredBy" placeholder="Name of the person who referred you" required className={field} aria-invalid={!!err.referredBy} />
+          </Field>
+        </div>
+      )}
+
       <Field id={`${id}-course`} label="Program you're interested in" error={err.course}>
         <select id={`${id}-course`} name="course" defaultValue={defaultCourse ?? ""} required className={field} aria-invalid={!!err.course}>
           <option value="" disabled>
             Select a program
           </option>
           <option value={NOT_SURE}>Not sure yet, help me choose</option>
+          {referral && <option value={STUDY_ABROAD}>Study abroad</option>}
           {byUni.map((u) => (
             <optgroup key={u} label={universities[u].name}>
               {courses

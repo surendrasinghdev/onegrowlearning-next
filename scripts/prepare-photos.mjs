@@ -25,6 +25,9 @@ const jobs = [
   ["2024/10/manipal-university.jpg", "campus-muj", 960, 600, { position: "centre" }],
   ["2024/10/About-Sikkim-Manipal-University.webp", "campus-smu", 960, 600, { position: "centre" }],
   ["2025/01/MBa.jpg", "degree-sample-muj", 960, 735, { fit: "contain" }],
+  ["2024/10/1583994753php9GLKzo.jpeg", "lecture", 720, 480, { position: "centre" }],
+  ["2024/10/young-female-university-graduate-academic-cap-sitting-table-smiling-pointing-left-future-lawyer-engineer-showing-idea_1120246-7658.jpg", "graduate-2", 720, 480, { position: "top" }],
+  ["2024/10/young-woman-graduation-ceremony-holding-her-cap_23-2148505270.jpg", "graduate-3", 720, 480, { position: "attention" }],
 ];
 
 for (const [src, name, width, height, opts] of jobs) {
