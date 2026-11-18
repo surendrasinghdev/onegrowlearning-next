@@ -1,55 +1,55 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
-import {
-  courseHref,
-  courses,
-  courseTags,
-  formatDuration,
-  formatINR,
-  levelLabels,
-  universities,
-  uniTone,
-  type Course,
-  type Level,
-  type UniversityId,
-} from "@/data/courses";
-import { asset } from "@/lib/asset";
-import { useEnquiry } from "./Enquiry";
-import {
-  ArrowRightIcon,
-  BriefcaseIcon,
-  GraduationIcon,
-  SparkIcon,
-} from "./icons";
+import { courseHref, courses, formatDuration, levelLabels, universities, uniTone, type Course, type Level, type UniversityId } from "@/data/courses";
+import { ArrowRightIcon, ClockIcon } from "./icons";
 
-const levels: { id: Level; icon: typeof GraduationIcon; blurb: string }[] = [
-  { id: "pg", icon: GraduationIcon, blurb: "MBA, MCA, M.Com, MA" },
-  { id: "ug", icon: SparkIcon, blurb: "BBA, BCA, B.Com, BA" },
-  { id: "executive", icon: BriefcaseIcon, blurb: "Full-time, Mumbai" },
+type Filter = { kind: "level"; value: "all" | Level } | { kind: "uni"; value: UniversityId };
+
+const levelItems: { value: "all" | Level; label: string }[] = [
+  { value: "all", label: "All degrees" },
+  { value: "pg", label: levelLabels.pg },
+  { value: "ug", label: levelLabels.ug },
+  { value: "executive", label: levelLabels.executive },
 ];
 const uniOrder: UniversityId[] = ["muj", "smu", "shoolini", "welingkar"];
 
-function byUniversity(level: Level) {
-  return uniOrder
-    .map((u) => ({
-      uni: u,
-      list: courses.filter((c) => c.level === level && c.university === u),
-    }))
-    .filter((g) => g.list.length);
+// Order the degree cards so the most asked-for programs come first.
+const typeOrder = ["MBA", "MCA", "BBA", "BCA", "M.Com", "B.Com", "MA English", "MA Economics", "MA JMC", "MA Sociology", "MA Pol. Science", "BA", "PG Media", "PGP-EFMB"];
+
+type DegreeType = { code: string; name: string; tag: string; duration: number; options: Course[] };
+
+/** One card per degree (e.g. "MBA"), listing every university that offers it. */
+function degreeTypes(filter: Filter): DegreeType[] {
+  const list = courses.filter((c) => (filter.kind === "uni" ? c.university === filter.value : filter.value === "all" || c.level === filter.value));
+  const map = new Map<string, DegreeType>();
+  for (const c of list) {
+    const t = map.get(c.code);
+    if (t) t.options.push(c);
+    else
+      map.set(c.code, {
+        code: c.code,
+        name: c.name,
+        tag: c.mode === "Online" ? `Online ${c.code.split(" ")[0]}` : "On campus",
+        duration: c.durationMonths,
+        options: [c],
+      });
+  }
+  const rank = (code: string) => (typeOrder.indexOf(code) + 1 || 99);
+  return [...map.values()].sort((a, b) => rank(a.code) - rank(b.code));
 }
 
-/** Desktop "Explore courses" button with a mega menu of every program, grouped by level and university. */
+const sameFilter = (a: Filter, b: Filter) => a.kind === b.kind && a.value === b.value;
+
+/** Desktop "Explore courses" button with a mega menu: filters on the left, one card per degree on the right. */
 export function MegaMenu() {
   const [open, setOpen] = useState(false);
-  const [level, setLevel] = useState<Level>("pg");
+  const [filter, setFilter] = useState<Filter>({ kind: "level", value: "all" });
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pathname = usePathname();
-  const enquire = useEnquiry();
   const panelId = useId();
 
   const clearTimers = () => {
@@ -83,19 +83,14 @@ export function MegaMenu() {
   }, [open, close]);
   useEffect(() => clearTimers, []);
 
-  const groups = byUniversity(level);
+  const types = degreeTypes(filter);
+  const heading =
+    filter.kind === "uni" ? universities[filter.value].name.replace(" (WeSchool)", "") : filter.value === "all" ? "All degrees" : levelLabels[filter.value];
 
   return (
     <div className="hidden lg:block">
-      {/* dim the page; sits inside the header's stacking context, behind the bar.
-          Kept outside the hover area so moving onto it closes the menu. */}
-      {open && (
-        <div
-          aria-hidden="true"
-          className="fixed inset-0 -z-10 bg-navy-deep/40 backdrop-blur-[2px]"
-          onClick={close}
-        />
-      )}
+      {/* Dims the page. Sits outside the hover area so moving onto it closes the menu. */}
+      {open && <div aria-hidden="true" className="fixed inset-0 -z-10 bg-navy-deep/40 backdrop-blur-[2px]" onClick={close} />}
       <div onMouseEnter={show} onMouseLeave={hide}>
         <button
           type="button"
@@ -103,255 +98,180 @@ export function MegaMenu() {
           aria-controls={panelId}
           onClick={() => (open ? close() : (clearTimers(), setOpen(true)))}
           className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-[15px] font-semibold transition ${
-            open
-              ? "bg-navy text-white"
-              : "bg-peach text-navy hover:bg-navy hover:text-white"
+            open ? "bg-navy text-white" : "bg-peach text-navy hover:bg-navy hover:text-white"
           }`}
         >
           <GridIcon className="size-4" />
           Explore courses
-          <ChevronIcon
-            className={`size-4 transition ${open ? "rotate-180" : ""}`}
-          />
+          <ChevronIcon className={`size-4 transition ${open ? "rotate-180" : ""}`} />
         </button>
 
         {open && (
-          <>
-            {/* pt-2 bridges the gap so moving the mouse down doesn't close the menu */}
-            <div
-              id={panelId}
-              role="region"
-              aria-label="Courses"
-              className="absolute inset-x-0 top-full pt-2"
-            >
-              <div className="grid min-h-[440px] grid-cols-[250px_1fr_250px] overflow-hidden rounded-3xl bg-white shadow-[0_30px_80px_-20px_rgb(4_14_64/0.45)] ring-1 ring-line">
-                {/* level tabs */}
-                <div
-                  role="tablist"
-                  aria-orientation="vertical"
-                  aria-label="Degree level"
-                  className="flex flex-col gap-1.5 bg-cream p-4"
-                >
-                  <p className="px-3 pt-1 pb-2 text-xs font-semibold tracking-[0.14em] text-muted uppercase">
-                    Browse by level
+          // pt-2 bridges the gap below the header so moving the mouse down doesn't close the menu
+          <div id={panelId} role="region" aria-label="Courses" className="absolute inset-x-0 top-full pt-2">
+            <div className="grid h-[min(74vh,600px)] grid-cols-[250px_1fr] gap-4 rounded-3xl bg-[#f4f2ef] p-4 shadow-[0_30px_80px_-20px_rgb(4_14_64/0.45)] ring-1 ring-line">
+              {/* filters */}
+              <nav aria-label="Filter courses" className="overflow-y-auto rounded-2xl bg-white px-5 py-6">
+                <FilterGroup title="By degree">
+                  {levelItems.map((l) => (
+                    <FilterItem
+                      key={l.value}
+                      label={l.label}
+                      count={l.value === "all" ? courses.length : courses.filter((c) => c.level === l.value).length}
+                      active={sameFilter(filter, { kind: "level", value: l.value })}
+                      onSelect={() => setFilter({ kind: "level", value: l.value })}
+                    />
+                  ))}
+                </FilterGroup>
+                <FilterGroup title="By university" className="mt-8">
+                  {uniOrder.map((u) => (
+                    <FilterItem
+                      key={u}
+                      label={universities[u].name.replace(" (WeSchool)", "")}
+                      count={courses.filter((c) => c.university === u).length}
+                      active={sameFilter(filter, { kind: "uni", value: u })}
+                      onSelect={() => setFilter({ kind: "uni", value: u })}
+                    />
+                  ))}
+                </FilterGroup>
+              </nav>
+
+              {/* degree cards */}
+              <div className="flex min-h-0 flex-col">
+                <div className="flex items-baseline justify-between px-1 pb-3">
+                  <p className="font-display text-lg font-semibold text-navy">{heading}</p>
+                  <p className="text-sm text-muted">
+                    {types.length} degree{types.length === 1 ? "" : "s"}
                   </p>
-                  {levels.map((l) => {
-                    const active = level === l.id;
-                    const count = courses.filter(
-                      (c) => c.level === l.id,
-                    ).length;
-                    return (
-                      <button
-                        key={l.id}
-                        type="button"
-                        role="tab"
-                        aria-selected={active}
-                        onMouseEnter={() => setLevel(l.id)}
-                        onFocus={() => setLevel(l.id)}
-                        onClick={() => setLevel(l.id)}
-                        className={`group flex items-center gap-3 rounded-2xl px-3 py-3 text-left transition ${active ? "bg-white shadow-card ring-1 ring-line" : "hover:bg-white/70"}`}
-                      >
-                        <span
-                          className={`grid size-10 shrink-0 place-items-center rounded-xl ${active ? "bg-navy text-amber" : "bg-white text-brand ring-1 ring-line"}`}
-                        >
-                          <l.icon className="size-5" />
-                        </span>
-                        <span className="min-w-0 flex-1">
-                          <span className="flex items-center justify-between gap-2 font-semibold whitespace-nowrap text-navy">
-                            {levelLabels[l.id]}
-                            <span
-                              className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${active ? "bg-brand text-white" : "bg-white text-muted"}`}
-                            >
-                              {count}
-                            </span>
-                          </span>
-                          <span className="block truncate text-xs text-muted">
-                            {l.blurb}
-                          </span>
-                        </span>
-                      </button>
-                    );
-                  })}
-                  <Link
-                    href="/popular-programs/"
-                    onClick={close}
-                    className="mt-auto inline-flex items-center gap-1.5 px-3 pt-4 text-sm font-semibold text-brand hover:text-brand-dark"
-                  >
-                    All {courses.length} programs{" "}
-                    <ArrowRightIcon className="size-4" />
-                  </Link>
                 </div>
-
-                {/* courses for the selected level, one column per university */}
-                <div
-                  role="tabpanel"
-                  aria-label={levelLabels[level]}
-                  className="max-h-[min(70vh,560px)] overflow-y-auto p-6"
+                <ul className="grid min-h-0 flex-1 auto-rows-min grid-cols-3 gap-3 overflow-y-auto pr-1 pb-1">
+                  {types.map((t) => (
+                    <DegreeCard key={t.code} type={t} onNavigate={close} />
+                  ))}
+                </ul>
+                <Link
+                  href="/popular-programs/"
+                  onClick={close}
+                  className="mt-3 flex items-center justify-center gap-2 rounded-full border border-navy/15 bg-white py-3 font-semibold text-navy transition hover:border-navy hover:bg-navy hover:text-white"
                 >
-                  <div
-                    className={`grid gap-6 ${groups.length >= 3 ? "grid-cols-3" : groups.length === 2 ? "grid-cols-2" : "grid-cols-1"}`}
-                  >
-                    {groups.map((g) => (
-                      <div key={g.uni}>
-                        <p
-                          className={`inline-block rounded-md px-2 py-1 text-[11px] font-bold ${uniTone[g.uni]}`}
-                        >
-                          {universities[g.uni].name.replace(" (WeSchool)", "")}
-                        </p>
-                        <ul className="mt-3 space-y-1">
-                          {g.list.map((c) => (
-                            <CourseLink
-                              key={c.slug}
-                              course={c}
-                              onClick={close}
-                              wide={groups.length === 1}
-                            />
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* promo */}
-                <div className="relative flex flex-col justify-end overflow-hidden bg-navy p-5 text-white">
-                  <Image
-                    src={asset("/images/photos/graduate-2.webp")}
-                    alt=""
-                    fill
-                    sizes="250px"
-                    className="object-cover opacity-45"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/70 to-transparent" />
-                  <div className="relative">
-                    <p className="font-display text-xl leading-snug font-semibold">
-                      Not sure which course fits you?
-                    </p>
-                    <p className="mt-2 text-sm text-white/75">
-                      Talk to a counsellor and compare programs, fees and EMI,
-                      free of cost.
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        close();
-                        enquire({ source: "Mega menu" });
-                      }}
-                      className="mt-4 w-full rounded-xl bg-brand px-4 py-3 text-sm font-semibold text-white hover:bg-brand-dark"
-                    >
-                      Get free counselling
-                    </button>
-                  </div>
-                </div>
+                  View all courses <ArrowRightIcon className="size-4" />
+                </Link>
               </div>
             </div>
-          </>
+          </div>
         )}
       </div>
     </div>
   );
 }
 
-function CourseLink({
-  course: c,
-  onClick,
-  wide,
-}: {
-  course: Course;
-  onClick: () => void;
-  wide?: boolean;
-}) {
-  const tag = courseTags(c).find((t) => t !== "Scholarships up to 20%");
+function FilterGroup({ title, className = "", children }: { title: string; className?: string; children: React.ReactNode }) {
   return (
-    <li>
-      <Link
-        href={courseHref(c)}
-        onClick={onClick}
-        className="group flex items-start gap-3 rounded-2xl p-2.5 transition hover:bg-peach"
+    <div className={className}>
+      <p className="font-display text-xl font-semibold text-navy">{title}</p>
+      <ul className="mt-3 divide-y divide-line">{children}</ul>
+    </div>
+  );
+}
+
+function FilterItem({ label, count, active, onSelect }: { label: string; count: number; active: boolean; onSelect: () => void }) {
+  return (
+    <li className="relative">
+      {active && <span aria-hidden="true" className="absolute top-1/2 -left-5 h-8 w-1 -translate-y-1/2 rounded-r-full bg-brand" />}
+      <button
+        type="button"
+        aria-pressed={active}
+        onMouseEnter={onSelect}
+        onFocus={onSelect}
+        onClick={onSelect}
+        className={`flex w-full items-center justify-between gap-3 py-3 text-left text-[15px] transition ${active ? "font-semibold text-navy" : "text-ink/70 hover:text-navy"}`}
       >
-        <span className="mt-0.5 grid h-9 min-w-12 shrink-0 place-items-center rounded-lg bg-navy/5 px-2 text-xs font-bold text-navy group-hover:bg-brand group-hover:text-white">
-          {c.code.split(/[\s-]/)[0]}
-        </span>
-        <span className="min-w-0">
-          <span
-            className={`block text-sm leading-snug font-semibold text-ink group-hover:text-navy ${wide ? "" : "line-clamp-2"}`}
-          >
-            {c.name}
-          </span>
-          <span className="mt-0.5 block text-xs text-muted">
-            {formatDuration(c.durationMonths)} ·{" "}
-            {c.fee ? formatINR(c.fee) : "Fee on request"}
-            {tag && (
-              <span className="ml-1.5 font-semibold text-brand">{tag}</span>
-            )}
-          </span>
-        </span>
-      </Link>
+        {label}
+        <span className={`text-xs ${active ? "text-brand" : "text-muted"}`}>{count}</span>
+      </button>
     </li>
   );
 }
 
-/** Course list for the mobile menu: level pills, then programs grouped by university. */
+function DegreeCard({ type: t, onNavigate }: { type: DegreeType; onNavigate: () => void }) {
+  const single = t.options.length === 1 ? t.options[0] : null;
+  return (
+    <li className="group relative flex flex-col rounded-2xl bg-white p-4 ring-1 ring-line transition hover:shadow-card hover:ring-navy/15">
+      <span className="absolute top-0 right-0 rounded-tr-2xl rounded-bl-2xl bg-navy px-3 py-1.5 text-xs font-semibold text-white">{t.tag}</span>
+      <p className="min-h-[2.75rem] pr-24 leading-snug font-semibold text-navy">
+        {single ? (
+          <Link href={courseHref(single)} onClick={onNavigate} className="hover:text-brand">
+            {t.name}
+          </Link>
+        ) : (
+          t.name
+        )}
+      </p>
+      <div className="mt-auto pt-4">
+        <p className="text-xs text-muted">{t.options.length > 1 ? "Universities" : "University"}</p>
+        <div className="mt-1.5 flex items-end justify-between gap-2">
+          <div className="flex flex-wrap gap-1.5">
+            {t.options.map((c) => (
+              <Link
+                key={c.slug}
+                href={courseHref(c)}
+                onClick={onNavigate}
+                title={`${c.name}, ${universities[c.university].name}`}
+                className={`rounded-full px-2.5 py-1 text-xs font-bold ring-1 ring-black/5 transition hover:ring-navy/40 ${uniTone[c.university]}`}
+              >
+                {universities[c.university].short}
+              </Link>
+            ))}
+          </div>
+          <span className="flex shrink-0 items-center gap-1 text-xs font-medium text-muted">
+            <ClockIcon className="size-3.5" />
+            {formatDuration(t.duration)}
+          </span>
+        </div>
+      </div>
+    </li>
+  );
+}
+
+/** Course list for the mobile menu: level pills, then one row per degree with university chips. */
 export function MobileCourses({ onNavigate }: { onNavigate: () => void }) {
-  const [level, setLevel] = useState<Level>("pg");
+  const [level, setLevel] = useState<"all" | Level>("all");
+  const types = degreeTypes({ kind: "level", value: level });
   return (
     <div className="rounded-2xl bg-cream p-3">
-      <p className="px-1 text-xs font-semibold tracking-[0.14em] text-muted uppercase">
-        Explore courses
-      </p>
-      <div
-        role="tablist"
-        aria-label="Degree level"
-        className="no-scrollbar mt-2 flex gap-1 overflow-x-auto"
-      >
-        {levels.map((l) => (
+      <p className="px-1 text-xs font-semibold tracking-[0.14em] text-muted uppercase">Explore courses</p>
+      <div role="group" aria-label="Degree level" className="no-scrollbar mt-2 flex gap-1 overflow-x-auto">
+        {levelItems.map((l) => (
           <button
-            key={l.id}
+            key={l.value}
             type="button"
-            role="tab"
-            aria-selected={level === l.id}
-            onClick={() => setLevel(l.id)}
-            className={`shrink-0 rounded-full px-3.5 py-2 text-sm font-semibold ${level === l.id ? "bg-navy text-white" : "bg-white text-ink/70 ring-1 ring-line"}`}
+            aria-pressed={level === l.value}
+            onClick={() => setLevel(l.value)}
+            className={`shrink-0 rounded-full px-3.5 py-2 text-sm font-semibold ${level === l.value ? "bg-navy text-white" : "bg-white text-ink/70 ring-1 ring-line"}`}
           >
-            {levelLabels[l.id]}
+            {l.label}
           </button>
         ))}
       </div>
-      <div role="tabpanel" className="mt-3 space-y-3">
-        {byUniversity(level).map((g) => (
-          <div key={g.uni}>
-            <p
-              className={`inline-block rounded-md px-2 py-0.5 text-[11px] font-bold ${uniTone[g.uni]}`}
-            >
-              {universities[g.uni].short}
-            </p>
-            <ul className="mt-1.5 grid grid-cols-2 gap-1.5">
-              {g.list.map((c) => (
-                <li key={c.slug}>
-                  <Link
-                    href={courseHref(c)}
-                    onClick={onNavigate}
-                    className="block rounded-xl bg-white px-3 py-2.5 ring-1 ring-line"
-                  >
-                    <span className="block text-sm font-semibold text-navy">
-                      {c.code}
-                    </span>
-                    <span className="block text-xs text-muted">
-                      {c.fee ? formatINR(c.fee) : "Fee on request"}
-                    </span>
-                  </Link>
-                </li>
+      <ul className="mt-3 space-y-2">
+        {types.map((t) => (
+          <li key={t.code} className="rounded-xl bg-white px-3 py-2.5 ring-1 ring-line">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-sm font-semibold text-navy">{t.name}</span>
+              <span className="shrink-0 rounded-md bg-navy px-2 py-0.5 text-[11px] font-semibold text-white">{t.tag}</span>
+            </div>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {t.options.map((c) => (
+                <Link key={c.slug} href={courseHref(c)} onClick={onNavigate} className={`rounded-full px-2.5 py-1 text-xs font-bold ${uniTone[c.university]}`}>
+                  {universities[c.university].short}
+                </Link>
               ))}
-            </ul>
-          </div>
+            </div>
+          </li>
         ))}
-      </div>
-      <Link
-        href="/popular-programs/"
-        onClick={onNavigate}
-        className="mt-3 inline-flex items-center gap-1.5 px-1 text-sm font-semibold text-brand"
-      >
-        All {courses.length} programs <ArrowRightIcon className="size-4" />
+      </ul>
+      <Link href="/popular-programs/" onClick={onNavigate} className="mt-3 inline-flex items-center gap-1.5 px-1 text-sm font-semibold text-brand">
+        View all courses <ArrowRightIcon className="size-4" />
       </Link>
     </div>
   );
@@ -359,16 +279,7 @@ export function MobileCourses({ onNavigate }: { onNavigate: () => void }) {
 
 function GridIcon(p: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      {...p}
-    >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...p}>
       <rect x="3" y="3" width="7" height="7" rx="1.5" />
       <rect x="14" y="3" width="7" height="7" rx="1.5" />
       <rect x="3" y="14" width="7" height="7" rx="1.5" />
@@ -379,16 +290,7 @@ function GridIcon(p: React.SVGProps<SVGSVGElement>) {
 
 function ChevronIcon(p: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2.2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      {...p}
-    >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...p}>
       <path d="m6 9 6 6 6-6" />
     </svg>
   );
