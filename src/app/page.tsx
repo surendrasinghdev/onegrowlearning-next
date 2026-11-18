@@ -35,7 +35,7 @@ export default function Home() {
       <Highlights />
       <Rankings />
       <section id="programs" className="scroll-mt-24 py-20 sm:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-site-px px-4 sm:px-6 lg:px-8">
           <CourseExplorer />
         </div>
       </section>
@@ -61,7 +61,7 @@ function Title({ children, light, className = "" }: { children: React.ReactNode;
   return <h2 className={`mt-2 text-3xl font-semibold sm:text-[2.6rem] sm:leading-tight ${light ? "text-white" : "text-navy"} ${className}`}>{children}</h2>;
 }
 
-const container = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
+const container = "mx-auto max-w-site-px px-4 sm:px-6 lg:px-8";
 
 /* ---------- 1. Hero ---------- */
 
@@ -550,7 +550,7 @@ function Faq() {
 function AdvanceCareer() {
   return (
     <section className="px-4 pb-20 sm:px-6 sm:pb-24 lg:px-8">
-      <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] bg-mint">
+      <div className="relative mx-auto max-w-site overflow-hidden rounded-[2.5rem] bg-mint">
         <svg aria-hidden="true" viewBox="0 0 800 400" className="absolute inset-0 size-full text-[#d7eac2]" preserveAspectRatio="none">
           <path d="M-20 320C120 120 260 380 400 200S640 20 820 140" fill="none" stroke="currentColor" strokeWidth="60" strokeLinecap="round" />
         </svg>

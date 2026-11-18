@@ -31,6 +31,12 @@
 
   --shadow-card: 0 1px 2px rgb(6 21 91 / 0.04), 0 8px 24px -12px rgb(6 21 91 / 0.18);
   --shadow-lift: 0 2px 4px rgb(6 21 91 / 0.05), 0 24px 48px -20px rgb(6 21 91 / 0.35);
+
+  /* Site width: content is 1260px wide on large screens.
+     max-w-site    = boxes whose own edge is the content edge (header bar, rounded CTA box)
+     max-w-site-px = containers that also carry the lg:px-8 side padding (1260 + 2 x 32) */
+  --container-site: 1260px;
+  --container-site-px: calc(1260px + 4rem);
 }
 
 html {
