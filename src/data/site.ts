@@ -6,6 +6,7 @@ export const site = {
   phone: "+91-9318405586",
   phoneHref: "tel:+919318405586",
   email: "info@onegrowlearning.com",
+  whatsappNumber: "919318405586",
   whatsappHref:
     "https://wa.me/919318405586?text=" + encodeURIComponent("Hi Onegrow, I want to know more about online degree programs."),
   social: {

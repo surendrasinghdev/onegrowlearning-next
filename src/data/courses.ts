@@ -1,3 +1,4 @@
+import { asset } from "@/lib/asset";
 // Fees verified on the universities' official sites in Nov 2026 (see CORRECTIONS.md for sources).
 // Slugs match the old WordPress URLs so existing links and search rankings keep working.
 
@@ -19,7 +20,7 @@ export const universities: Record<UniversityId, University> = {
     name: "Manipal University Jaipur",
     short: "MUJ",
     location: "Jaipur, Rajasthan",
-    logo: { src: "/images/universities/muj.png", width: 480, height: 136 },
+    logo: { src: asset("/images/universities/muj.png"), width: 480, height: 136 },
     highlights: ["NAAC A+", "UGC-entitled", "AICTE approved"],
   },
   smu: {
@@ -27,7 +28,7 @@ export const universities: Record<UniversityId, University> = {
     name: "Sikkim Manipal University",
     short: "SMU",
     location: "Gangtok, Sikkim",
-    logo: { src: "/images/universities/smu.png", width: 480, height: 115 },
+    logo: { src: asset("/images/universities/smu.png"), width: 480, height: 115 },
     highlights: ["NAAC A+", "UGC-entitled", "Affordable fees"],
   },
   shoolini: {
@@ -130,14 +131,14 @@ export function courseLabel(c: Course) {
 /** Card photo for a course, picked by subject (photos live in public/images/photos). */
 export function courseImage(c: Course) {
   const code = c.code.toLowerCase();
-  if (c.slug.includes("media") || code.includes("jmc")) return "/images/photos/media.webp";
-  if (c.university === "welingkar") return "/images/photos/business.webp";
-  if (code.includes("mba")) return "/images/photos/mba.webp";
-  if (code.includes("mca") || code.includes("bca")) return "/images/photos/computers.webp";
-  if (code.includes("bba")) return "/images/photos/bba.webp";
-  if (code.includes("com")) return "/images/photos/commerce.webp";
-  if (code === "ba") return "/images/photos/student.webp";
-  return "/images/photos/arts.webp";
+  if (c.slug.includes("media") || code.includes("jmc")) return asset("/images/photos/media.webp");
+  if (c.university === "welingkar") return asset("/images/photos/business.webp");
+  if (code.includes("mba")) return asset("/images/photos/mba.webp");
+  if (code.includes("mca") || code.includes("bca")) return asset("/images/photos/computers.webp");
+  if (code.includes("bba")) return asset("/images/photos/bba.webp");
+  if (code.includes("com")) return asset("/images/photos/commerce.webp");
+  if (code === "ba") return asset("/images/photos/student.webp");
+  return asset("/images/photos/arts.webp");
 }
 
 /** Short, factual highlights shown on course cards. */

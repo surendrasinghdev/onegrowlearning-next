@@ -43,3 +43,6 @@ next-env.d.ts
 
 # WordPress backup (private: contains leads, user data)
 /wp-export/
+
+# Local preview of the GitHub Pages build
+/.pages-preview/

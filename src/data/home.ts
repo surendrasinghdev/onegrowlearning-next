@@ -1,15 +1,16 @@
+import { asset } from "@/lib/asset";
 // Homepage copy, carried over from the WordPress site and tightened.
 
 // Rankings and approvals held by partner universities, as published on their official sites.
 export const accreditations: { src?: string; mark?: string; name: string; detail: string; ribbon?: string }[] = [
   { mark: "NIRF", name: "NIRF 2025", detail: "Manipal University Jaipur ranked 58 among India's top universities", ribbon: "Rank 58" },
-  { src: "/images/accreditations/naac.png", name: "NAAC A+", detail: "Manipal University Jaipur and Sikkim Manipal University are NAAC A+ accredited", ribbon: "Grade A+" },
-  { src: "/images/accreditations/ugc.png", name: "UGC-entitled", detail: "Online degrees at par with on-campus degrees" },
-  { src: "/images/accreditations/aicte.png", name: "AICTE", detail: "Programs follow AICTE norms where applicable" },
-  { src: "/images/accreditations/the.webp", name: "THE Rankings", detail: "Shoolini ranked India's No. 1 private university by THE and QS, 2023-24", ribbon: "No. 1 Pvt." },
-  { src: "/images/accreditations/wes.png", name: "WES", detail: "Degrees recognised by World Education Services for study and work abroad" },
-  { src: "/images/accreditations/icas.png", name: "ICAS", detail: "International Credential Assessment Service of Canada" },
-  { src: "/images/accreditations/ices.png", name: "ICES", detail: "International Credential Evaluation Service" },
+  { src: asset("/images/accreditations/naac.png"), name: "NAAC A+", detail: "Manipal University Jaipur and Sikkim Manipal University are NAAC A+ accredited", ribbon: "Grade A+" },
+  { src: asset("/images/accreditations/ugc.png"), name: "UGC-entitled", detail: "Online degrees at par with on-campus degrees" },
+  { src: asset("/images/accreditations/aicte.png"), name: "AICTE", detail: "Programs follow AICTE norms where applicable" },
+  { src: asset("/images/accreditations/the.webp"), name: "THE Rankings", detail: "Shoolini ranked India's No. 1 private university by THE and QS, 2023-24", ribbon: "No. 1 Pvt." },
+  { src: asset("/images/accreditations/wes.png"), name: "WES", detail: "Degrees recognised by World Education Services for study and work abroad" },
+  { src: asset("/images/accreditations/icas.png"), name: "ICAS", detail: "International Credential Assessment Service of Canada" },
+  { src: asset("/images/accreditations/ices.png"), name: "ICES", detail: "International Credential Evaluation Service" },
 ];
 
 export const highlights = [

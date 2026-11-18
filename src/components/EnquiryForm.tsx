@@ -1,7 +1,8 @@
 "use client";
 
 import { useActionState, useId } from "react";
-import { submitLead, type LeadState } from "@/app/actions";
+import { submitLead } from "@/app/actions";
+import type { LeadState } from "@/lib/lead";
 import { courses, universities, type UniversityId } from "@/data/courses";
 import { NOT_SURE, profiles, states } from "@/data/form-options";
 import { site } from "@/data/site";
@@ -24,6 +25,28 @@ export function EnquiryForm({
   const [state, action, pending] = useActionState(submitLead, initial);
   const id = useId();
   const err = state.errors ?? {};
+
+  if (state.status === "success" && state.whatsappHref) {
+    // Static site: the lead reaches the counsellor once the visitor sends it on WhatsApp.
+    return (
+      <div className="flex flex-col items-center py-6 text-center" role="status">
+        <span className="grid size-14 place-items-center rounded-full bg-[#25D366]/15 text-[#128C4B]">
+          <WhatsAppIcon className="size-7" />
+        </span>
+        <h3 className="mt-4 text-xl font-bold text-navy">One last step</h3>
+        <p className="mt-2 max-w-xs text-sm text-muted">Send your details to our counsellor on WhatsApp. We&apos;ll get back to you shortly.</p>
+        <a
+          href={state.whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[#25D366] px-6 py-3 font-semibold text-white hover:brightness-95"
+        >
+          <WhatsAppIcon className="size-5" /> Send on WhatsApp
+        </a>
+        <p className="mt-3 text-xs text-muted">Or call us at {site.phone}</p>
+      </div>
+    );
+  }
 
   if (state.status === "success") {
     return (

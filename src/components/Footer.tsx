@@ -1,3 +1,4 @@
+import { asset } from "@/lib/asset";
 import Image from "next/image";
 import Link from "next/link";
 import { courses, courseHref, universities, type UniversityId } from "@/data/courses";
@@ -13,20 +14,15 @@ const quickLinks = [
   { label: "Contact Us", href: "/contact-us/" },
 ];
 
-async function currentYear() {
-  "use cache";
-  return new Date().getFullYear();
-}
-
-export async function Footer() {
+export function Footer() {
   const unis: UniversityId[] = ["muj", "smu", "shoolini", "welingkar"];
-  const year = await currentYear();
+  const year = process.env.NEXT_PUBLIC_BUILD_YEAR;
   return (
     <footer className="bg-navy-deep text-white/75">
       <div className="mx-auto max-w-7xl px-4 pt-16 pb-10 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-[1.2fr_2fr]">
           <div>
-            <Image src="/images/brand/logo-light.png" alt="Onegrow Learning" width={640} height={209} className="h-11 w-auto" />
+            <Image src={asset("/images/brand/logo-light.png")} alt="Onegrow Learning" width={640} height={209} className="h-11 w-auto" />
             <p className="mt-5 max-w-sm text-[15px] leading-relaxed">
               Our partnerships with leading universities let us offer high-quality, recognised online degree programs. Together, we
               help learners grow their careers.

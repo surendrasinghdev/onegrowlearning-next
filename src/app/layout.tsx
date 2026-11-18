@@ -1,3 +1,4 @@
+import { asset } from "@/lib/asset";
 import type { Metadata } from "next";
 import { DM_Sans, Outfit } from "next/font/google";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
   },
   description:
     "Compare UGC-entitled online MBA, MCA, BBA, BCA, B.Com and MA programs from Manipal University Jaipur, Sikkim Manipal, Shoolini and more. Free career counselling, EMI and education loan help.",
-  icons: { icon: "/images/brand/mark.png" },
+  icons: { icon: asset("/images/brand/mark.png") },
   openGraph: { siteName: site.name, type: "website", locale: "en_IN" },
 };
 

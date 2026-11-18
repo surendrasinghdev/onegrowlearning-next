@@ -1,5 +1,6 @@
 "use client";
 
+import { asset } from "@/lib/asset";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -34,7 +35,7 @@ export function Header() {
         }`}
       >
         <Link href="/" className="shrink-0" aria-label="Onegrow Learning home" onClick={() => setOpen(false)}>
-          <Image src="/images/brand/logo-dark.png" alt="Onegrow Learning" width={640} height={209} className="h-9 w-auto" preload />
+          <Image src={asset("/images/brand/logo-dark.png")} alt="Onegrow Learning" width={640} height={209} className="h-9 w-auto" preload />
         </Link>
 
         <nav aria-label="Main" className="ml-auto hidden lg:block">

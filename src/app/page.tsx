@@ -1,3 +1,4 @@
+import { asset } from "@/lib/asset";
 import Image from "next/image";
 import { Carousel } from "@/components/Carousel";
 import { CourseExplorer, ShowProgramsButton } from "@/components/CourseExplorer";
@@ -124,7 +125,7 @@ function Hero() {
         {/* Photo with floating facts (wide screens only) */}
         <div className="relative hidden xl:block">
           <div className="relative mt-6 h-[440px] overflow-hidden rounded-t-[999px] rounded-b-3xl ring-1 ring-white/15">
-            <Image src="/images/photos/hero-professional.webp" alt="Working professional studying an online degree" fill sizes="250px" className="object-cover" preload />
+            <Image src={asset("/images/photos/hero-professional.webp")} alt="Working professional studying an online degree" fill sizes="250px" className="object-cover" preload />
             <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/60 via-transparent" />
           </div>
           <div className="absolute top-24 -left-12 rounded-2xl bg-white px-4 py-3 text-ink shadow-lift">
@@ -304,8 +305,8 @@ function Advantage() {
 /* ---------- 6. Universities ---------- */
 
 const campusPhoto: Partial<Record<UniversityId, string>> = {
-  muj: "/images/photos/campus-muj.webp",
-  smu: "/images/photos/campus-smu.webp",
+  muj: asset("/images/photos/campus-muj.webp"),
+  smu: asset("/images/photos/campus-smu.webp"),
 };
 
 function Universities() {
@@ -415,7 +416,7 @@ function SampleDegree() {
         <div className="relative order-2 lg:order-1">
           <div aria-hidden="true" className="absolute inset-6 -rotate-6 rounded-3xl bg-gradient-to-br from-brand to-amber opacity-80" />
           <div className="relative rotate-2 rounded-3xl bg-white p-3 shadow-[0_40px_80px_-30px_rgb(0_0_0/0.7)]">
-            <Image src="/images/photos/degree-sample-muj.webp" alt="Sample online MBA degree certificate from Manipal University Jaipur" width={960} height={735} className="rounded-2xl" />
+            <Image src={asset("/images/photos/degree-sample-muj.webp")} alt="Sample online MBA degree certificate from Manipal University Jaipur" width={960} height={735} className="rounded-2xl" />
           </div>
           <span className="absolute -bottom-4 left-6 rounded-full bg-white px-4 py-2 text-sm font-semibold text-navy shadow-lift">Sample degree, MUJ Online MBA</span>
         </div>
@@ -564,7 +565,7 @@ function AdvanceCareer() {
           </div>
           <div className="relative hidden self-center p-10 pl-0 lg:block">
             <div className="relative mx-auto aspect-[4/5] max-w-sm overflow-hidden rounded-t-[999px] rounded-b-[2rem] ring-8 ring-white/70">
-              <Image src="/images/photos/counsellor.webp" alt="" fill sizes="384px" className="object-cover" />
+              <Image src={asset("/images/photos/counsellor.webp")} alt="" fill sizes="384px" className="object-cover" />
             </div>
             <div className="absolute bottom-16 left-0 rounded-2xl bg-white px-5 py-4 shadow-lift">
               <p className="text-sm text-muted">Talk to us directly</p>
