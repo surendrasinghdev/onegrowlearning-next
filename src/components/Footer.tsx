@@ -15,7 +15,7 @@ const quickLinks = [
 ];
 
 export function Footer() {
-  const unis: UniversityId[] = ["muj", "smu", "shoolini", "welingkar"];
+  const unis: UniversityId[] = ["muj", "smu"];
   const year = process.env.NEXT_PUBLIC_BUILD_YEAR;
   return (
     <footer className="bg-navy-deep text-white/75">

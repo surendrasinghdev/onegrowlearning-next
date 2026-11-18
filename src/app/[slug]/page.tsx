@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { course: c, detail } = found;
   const u = universities[c.university];
   return {
-    title: `${c.name} (${c.code}) from ${u.name.replace(" (WeSchool)", "")}: Fees, Syllabus & Admission`,
+    title: `${c.name} (${c.code}) from ${u.name}: Fees, Syllabus & Admission`,
     description: firstSentences(detail.overview, 155),
   };
 }
@@ -156,7 +156,7 @@ function CourseHero({ course: c, detail }: { course: Course; detail: CourseDetai
           </nav>
 
           <div className="mt-6 flex flex-wrap gap-2">
-            <span className={`rounded-md px-2.5 py-1 text-xs font-bold ${uniTone[c.university]}`}>{u.name.replace(" (WeSchool)", "")}</span>
+            <span className={`rounded-md px-2.5 py-1 text-xs font-bold ${uniTone[c.university]}`}>{u.name}</span>
             <span className="rounded-md bg-white/10 px-2.5 py-1 text-xs font-bold text-white/85">{c.mode}</span>
             {courseTags(c).map((t) => (
               <span key={t} className="rounded-md bg-amber px-2.5 py-1 text-xs font-bold text-navy-deep">
@@ -368,9 +368,7 @@ function Fees({ course: c }: { course: Course }) {
   const offer =
     c.university === "muj" || c.university === "smu"
       ? { title: "Scholarships up to 20%", body: "Manipal scholarships for defence personnel, government employees, differently-abled and meritorious students. You also save when you pay the full fee upfront." }
-      : c.university === "shoolini"
-        ? { title: "Scholarship & Pay After Placement", body: "The fee shown is after Shoolini's scholarship. With the Pay After Placement option, part of the fee is paid only after you get placed." }
-        : { title: "EMI options", body: "Spread the fee with EMI plans through WeSchool's education finance partners." };
+      : { title: "EMI options", body: "Spread the fee with easy EMI plans. Your counsellor will share the options." };
 
   return (
     <section id="fees" className="scroll-mt-28 bg-white py-20 sm:py-24">
@@ -407,7 +405,7 @@ function Fees({ course: c }: { course: Course }) {
           </div>
         </div>
         <p className="mt-6 text-sm text-muted">
-          Fees for Indian students as listed on the {u.name.replace(" (WeSchool)", "")} official website in {site.feesCheckedOn}. NRI and international fees differ. Fees can
+          Fees for Indian students as listed on the {u.name} official website in {site.feesCheckedOn}. NRI and international fees differ. Fees can
           change, so your counsellor will confirm the latest amount.
         </p>
       </div>
@@ -528,8 +526,8 @@ function Related({ course: c }: { course: Course }) {
   const sameUni = courses.filter((o) => o.slug !== c.slug && o.university === c.university && o.code !== c.code);
   const sameLevel = courses.filter((o) => o.slug !== c.slug && o.level === c.level && !sameCode.includes(o) && !sameUni.includes(o));
   const picked = [...sameCode, ...sameUni, ...sameLevel];
-  // Top up thin lists (e.g. WeSchool) with the most popular programs.
-  const popular = ["master-of-business-administration-muj", "master-of-business-administration", "shoolini-online-mba", "master-of-computer-application"]
+  // Top up thin lists with the most popular programs.
+  const popular = ["master-of-business-administration-muj", "master-of-business-administration", "master-of-computer-application"]
     .map((s) => courses.find((o) => o.slug === s)!)
     .filter((o) => o.slug !== c.slug && !picked.includes(o));
   const list = [...picked, ...popular].slice(0, 8);

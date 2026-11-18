@@ -32,12 +32,12 @@ Every page of the old WordPress site exists at the same URL.
 | URL | Source |
 |---|---|
 | `/` | `src/app/page.tsx` (sections in `src/components/blocks.tsx`) |
-| `/<course-slug>/` (23 programs) | `src/app/[slug]/page.tsx`, data from `src/data/courses.ts` + `src/data/course-details.ts` |
+| `/<course-slug>/` (16 programs: 8 MUJ, 8 SMU) | `src/app/[slug]/page.tsx`, data from `src/data/courses.ts` + `src/data/course-details.ts` |
 | `/popular-programs/`, `/our-partners/`, `/about-us/`, `/contact-us/` | `src/app/<name>/page.tsx` |
 | `/circle-of-excellence-referee/` | Referral form (`EnquiryForm variant="referral"`) |
 | `/thank-you-page/`, `/privacy-policy/`, `/terms-conditions/` | `src/app/<name>/page.tsx`, legal text in `src/data/legal.json` |
 | `/homepage/`, `/career-support/`, `/success-stories/`, `/resource/` | Redirect to `/` (removed pages) |
-| `/pg-media-entertainment-welingkar/` | New: the Media program that was mixed into the old Welingkar page |
+| `/shoolini-online-*/`, `/pg-in-entrepreneurship-welingker-institute/`, `/pg-media-entertainment-welingkar/` | Redirect to `/popular-programs/`: Onegrow only partners with MUJ and SMU |
 
 ## Where things are
 
@@ -45,7 +45,7 @@ Every page of the old WordPress site exists at the same URL.
 |---|---|
 | `src/data/courses.ts` | All programs, universities and fees (fees checked Nov 2026) |
 | `src/data/course-content.json` | Curriculum, specialisations, careers, admission and FAQs per course, from the backup |
-| `src/data/course-details.ts` | Adds sample degrees and the two WeSchool programs to the above |
+| `src/data/course-details.ts` | Adds sample degree images to the above |
 | `src/data/home.ts` | Homepage copy: benefits, steps, testimonials, FAQs, videos, rankings |
 | `src/data/site.ts` | Phone, email, WhatsApp, nav |
 | `src/app/actions.ts`, `src/lib/lead.ts` | Lead form validation + email |

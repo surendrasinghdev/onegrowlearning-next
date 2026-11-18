@@ -8,11 +8,11 @@ import { courseHref, courses, formatINR, universities, uniTone, type UniversityI
 import { asset } from "@/lib/asset";
 
 export const metadata: Metadata = {
-  title: "Our University Partners: Manipal University Jaipur, Sikkim Manipal, Shoolini, WeSchool",
-  description: "Onegrow works with UGC-entitled, NAAC A+ universities. Explore Manipal University Jaipur, Sikkim Manipal University, Shoolini University and WeSchool and their programs.",
+  title: "Our University Partners: Manipal University Jaipur & Sikkim Manipal University",
+  description: "Onegrow works with UGC-entitled, NAAC A+ universities. Explore Manipal University Jaipur and Sikkim Manipal University and their online programs.",
 };
 
-const order: UniversityId[] = ["muj", "smu", "shoolini", "welingkar"];
+const order: UniversityId[] = ["muj", "smu"];
 
 export default function PartnersPage() {
   return (
@@ -30,7 +30,7 @@ export default function PartnersPage() {
         <div className="flex flex-wrap gap-3">
           {order.map((id) => (
             <a key={id} href={`#${id}`} className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold text-white/85 hover:bg-white/10">
-              {universities[id].name.replace(" (WeSchool)", "")}
+              {universities[id].name}
             </a>
           ))}
         </div>
@@ -49,7 +49,7 @@ export default function PartnersPage() {
                     {u.photo ? (
                       <Image src={u.photo} alt={`${u.name} campus`} fill sizes="(min-width:1024px) 600px, 90vw" className="object-cover" />
                     ) : (
-                      <div className={`grid size-full place-items-center ${id === "shoolini" ? "bg-gradient-to-br from-[#4b2a8f] to-[#8a5cd6]" : "bg-gradient-to-br from-navy to-[#2b4fb8]"}`}>
+                      <div className={`grid size-full place-items-center bg-gradient-to-br from-navy to-[#2b4fb8]`}>
                         <div className="text-center text-white">
                           <p className="font-display text-5xl font-bold">{u.short}</p>
                           <p className="mt-2 text-white/75">{u.location}</p>

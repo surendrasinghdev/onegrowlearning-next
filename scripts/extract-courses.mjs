@@ -140,7 +140,8 @@ const skip = new Set(["about-us", "contact-us", "homepage", "our-partners", "pop
 const result = {};
 for (const f of readdirSync(RAW).sort()) {
   const m = f.match(COURSE);
-  if (!m || skip.has(m[1])) continue;
+  // Only Manipal University Jaipur and Sikkim Manipal University are partners; skip the old Shoolini pages.
+  if (!m || skip.has(m[1]) || m[1].startsWith("shoolini-")) continue;
   result[m[1]] = extract(JSON.parse(readFileSync(`${RAW}/${f}`, "utf8")));
 }
 writeFileSync(OUT, JSON.stringify(result, null, 1) + "\n");

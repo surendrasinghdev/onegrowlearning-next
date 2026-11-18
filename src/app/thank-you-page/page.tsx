@@ -19,7 +19,7 @@ const next = [
 ];
 
 export default function ThankYouPage() {
-  const popular = ["master-of-business-administration-muj", "master-of-business-administration", "master-of-computer-application", "bachelor-of-business-administration", "shoolini-online-mba", "bachelor-of-computer-applications-bca"]
+  const popular = ["master-of-business-administration-muj", "master-of-business-administration", "master-of-computer-application", "bachelor-of-business-administration", "bachelor-of-computer-applications-bca"]
     .map((s) => courses.find((c) => c.slug === s)!)
     .filter(Boolean);
   return (

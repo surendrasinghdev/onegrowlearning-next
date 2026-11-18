@@ -2,8 +2,8 @@ import { asset } from "@/lib/asset";
 // Fees verified on the universities' official sites in Nov 2026 (see CORRECTIONS.md for sources).
 // Slugs match the old WordPress URLs so existing links and search rankings keep working.
 
-export type UniversityId = "muj" | "smu" | "shoolini" | "welingkar";
-export type Level = "pg" | "ug" | "executive";
+export type UniversityId = "muj" | "smu";
+export type Level = "pg" | "ug";
 
 export type University = {
   id: UniversityId;
@@ -37,30 +37,12 @@ export const universities: Record<UniversityId, University> = {
     about: "Part of the Manipal group and NAAC A+ accredited, Sikkim Manipal University in Gangtok is known for some of the most affordable UGC-entitled online degrees, from BA and B.Com to MBA and MCA, with easy EMIs.",
     photo: asset("/images/photos/campus-smu.webp"),
   },
-  shoolini: {
-    id: "shoolini",
-    name: "Shoolini University",
-    short: "Shoolini",
-    location: "Solan, Himachal Pradesh",
-    highlights: ["UGC-entitled", "Pay After Placement option", "Scholarships"],
-    about: "Ranked India's No. 1 private university by THE and QS (2023-24), Shoolini University in Solan, Himachal Pradesh offers fully online, UGC-entitled MBA, MCA, BBA, BCA and MA programs, with scholarships and a Pay After Placement option.",
-  },
-  welingkar: {
-    id: "welingkar",
-    name: "Welingkar Institute (WeSchool)",
-    short: "WeSchool",
-    location: "Mumbai campus",
-    highlights: ["Full-time, on campus", "11 months", "Harvard ManageMentor access"],
-    about: "Prin. L. N. Welingkar Institute of Management Development & Research (WeSchool) in Mumbai runs full-time, on-campus PG programs for next-generation business owners and future media professionals.",
-  },
 };
 
 /** Tag colours per university, used on cards. */
 export const uniTone: Record<UniversityId, string> = {
   muj: "bg-[#fde7d9] text-[#9a3a06]",
   smu: "bg-[#dcf2ef] text-[#0d5e55]",
-  shoolini: "bg-[#ece4fb] text-[#55339b]",
-  welingkar: "bg-[#e1e8fb] text-[#1d3d8f]",
 };
 
 export type Course = {
@@ -73,7 +55,7 @@ export type Course = {
   mode: "Online" | "On campus";
   /** Total fee in INR payable by Indian students; null when the institute does not publish it. */
   fee: number | null;
-  /** Fee before scholarship, shown struck through (Shoolini). */
+  /** Fee before a discount or scholarship, shown struck through. */
   regularFee?: number;
   semesterFee?: number;
   emiFrom?: number;
@@ -101,22 +83,11 @@ export const courses: Course[] = [
   { slug: "bachelor-of-arts", university: "smu", level: "ug", code: "BA", name: "Bachelor of Arts", durationMonths: 36, mode: "Online", fee: 75000, semesterFee: 12500, emiFrom: 2083 },
   { slug: "bachelor-of-commerce", university: "smu", level: "ug", code: "B.Com", name: "Bachelor of Commerce", durationMonths: 36, mode: "Online", fee: 75000, semesterFee: 12500, emiFrom: 2083 },
 
-  // Shoolini University: fee shown is the standard offer after scholarship
-  { slug: "shoolini-online-mba", university: "shoolini", level: "pg", code: "MBA", name: "Master of Business Administration", durationMonths: 24, mode: "Online", fee: 130000, regularFee: 200000, semesterFee: 32500, feeNote: "After scholarship. Pay After Placement option available." },
-  { slug: "shoolini-online-mca", university: "shoolini", level: "pg", code: "MCA", name: "Master of Computer Applications", durationMonths: 24, mode: "Online", fee: 125000, regularFee: 200000, semesterFee: 31250, feeNote: "After scholarship. Pay After Placement option available." },
-  { slug: "shoolini-online-ma", university: "shoolini", level: "pg", code: "MA English", name: "MA in English Literature", durationMonths: 24, mode: "Online", fee: 60000, regularFee: 84000, semesterFee: 15000, feeNote: "After scholarship." },
-  { slug: "shoolini-online-bba", university: "shoolini", level: "ug", code: "BBA", name: "Bachelor of Business Administration", durationMonths: 36, mode: "Online", fee: 96000, regularFee: 135000, semesterFee: 16000, feeNote: "After scholarship. Pay After Placement option available." },
-  { slug: "shoolini-online-bca", university: "shoolini", level: "ug", code: "BCA", name: "Bachelor of Computer Applications", durationMonths: 36, mode: "Online", fee: 96000, regularFee: 135000, semesterFee: 16000, feeNote: "After scholarship. Pay After Placement option available." },
-
-  // Welingkar (WeSchool), Mumbai
-  { slug: "pg-in-entrepreneurship-welingker-institute", university: "welingkar", level: "executive", code: "PGP-EFMB", name: "PGP in Entrepreneurship & Family Managed Business", durationMonths: 11, mode: "On campus", fee: null, feeNote: "1 week a month on campus, 3 weeks in your family business." },
-  { slug: "pg-media-entertainment-welingkar", university: "welingkar", level: "executive", code: "PG Media", name: "PG Program in Media & Entertainment Management", durationMonths: 11, mode: "On campus", fee: 400000, feeNote: "Plus GST. EMI available." },
 ];
 
 export const levelLabels: Record<Level, string> = {
   pg: "Master's",
   ug: "Bachelor's",
-  executive: "PG Programs",
 };
 
 export function formatINR(n: number) {
@@ -141,11 +112,10 @@ export function courseImage(c: Course) {
   const code = c.code.toLowerCase();
   // A few photos per subject; each university gets a different one so related cards don't repeat.
   const pick = (...names: string[]) => {
-    const i = ["muj", "smu", "shoolini", "welingkar"].indexOf(c.university);
+    const i = ["muj", "smu"].indexOf(c.university);
     return asset(`/images/photos/${names[i % names.length]}.webp`);
   };
-  if (c.slug.includes("media") || code.includes("jmc")) return pick("media");
-  if (c.university === "welingkar") return pick("business");
+  if (code.includes("jmc")) return pick("media");
   if (code.includes("mba")) return pick("mba", "hero-professional", "lecture");
   if (code.includes("mca") || code.includes("bca")) return pick("computers", "lecture", "bba");
   if (code.includes("bba")) return pick("bba", "graduate-2", "graduate-2");
@@ -159,14 +129,10 @@ export function courseTags(c: Course): string[] {
   const tags: string[] = [];
   if (c.university === "muj" || c.university === "smu") tags.push("Scholarships up to 20%");
   if (c.slug === "master-of-business-administration") tags.push("Dual specialisation");
-  if (c.feeNote?.includes("Pay After Placement")) tags.push("Pay After Placement");
-  if (c.mode === "On campus") tags.push("On campus, Mumbai");
   return tags;
 }
 
 export function courseEligibility(c: Course) {
-  if (c.slug === "pg-in-entrepreneurship-welingker-institute") return "Graduate, in a family business";
-  if (c.slug === "pg-media-entertainment-welingkar") return "Graduate with 50% marks";
   return c.level === "ug" ? "Class 12 pass" : "Any bachelor's degree";
 }
 

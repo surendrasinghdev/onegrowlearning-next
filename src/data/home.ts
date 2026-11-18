@@ -7,7 +7,6 @@ export const accreditations: { src?: string; mark?: string; name: string; detail
   { src: asset("/images/accreditations/naac.png"), name: "NAAC A+", detail: "Manipal University Jaipur and Sikkim Manipal University are NAAC A+ accredited", ribbon: "Grade A+" },
   { src: asset("/images/accreditations/ugc.png"), name: "UGC-entitled", detail: "Online degrees at par with on-campus degrees" },
   { src: asset("/images/accreditations/aicte.png"), name: "AICTE", detail: "Programs follow AICTE norms where applicable" },
-  { src: asset("/images/accreditations/the.webp"), name: "THE Rankings", detail: "Shoolini ranked India's No. 1 private university by THE and QS, 2023-24", ribbon: "No. 1 Pvt." },
   { src: asset("/images/accreditations/wes.png"), name: "WES", detail: "Degrees recognised by World Education Services for study and work abroad" },
   { src: asset("/images/accreditations/icas.png"), name: "ICAS", detail: "International Credential Assessment Service of Canada" },
   { src: asset("/images/accreditations/ices.png"), name: "ICES", detail: "International Credential Evaluation Service" },
@@ -105,7 +104,7 @@ export const faqs = [
 ];
 
 /** Rankings and approvals relevant to one university, for its course pages. */
-export function accreditationsFor(uni: "muj" | "smu" | "shoolini" | "welingkar") {
+export function accreditationsFor(uni: "muj" | "smu") {
   const pick = (...names: string[]) => accreditations.filter((a) => names.includes(a.name));
   const naac = (who: string) => ({ ...accreditations.find((a) => a.name === "NAAC A+")!, detail: `${who} is accredited with NAAC A+` });
   switch (uni) {
@@ -113,9 +112,5 @@ export function accreditationsFor(uni: "muj" | "smu" | "shoolini" | "welingkar")
       return [...pick("NIRF 2025"), naac("Manipal University Jaipur"), ...pick("UGC-entitled", "AICTE", "WES", "ICAS", "ICES")];
     case "smu":
       return [naac("Sikkim Manipal University"), ...pick("UGC-entitled", "AICTE", "WES", "ICAS", "ICES")];
-    case "shoolini":
-      return pick("THE Rankings", "UGC-entitled", "WES", "ICAS");
-    default:
-      return [];
   }
 }

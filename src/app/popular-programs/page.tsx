@@ -11,11 +11,11 @@ import { asset } from "@/lib/asset";
 export const metadata: Metadata = {
   title: "All Online Degree Programs: MBA, MCA, BBA, BCA, B.Com, MA",
   description:
-    "Compare every online degree we offer from Manipal University Jaipur, Sikkim Manipal University, Shoolini and WeSchool: fees, duration, EMI and eligibility in one place.",
+    "Compare every online degree we offer from Manipal University Jaipur and Sikkim Manipal University: fees, duration, EMI and eligibility in one place.",
 };
 
 export default function ProgramsPage() {
-  const uniOrder: UniversityId[] = ["muj", "smu", "shoolini", "welingkar"];
+  const uniOrder: UniversityId[] = ["muj", "smu"];
   return (
     <>
       <PageHero
@@ -85,7 +85,7 @@ export default function ProgramsPage() {
                           {c.code}
                           <span className="block text-xs font-normal text-muted">{c.name}</span>
                         </th>
-                        <td className="px-5 py-3.5 text-ink/80">{universities[c.university].name.replace(" (WeSchool)", "")}</td>
+                        <td className="px-5 py-3.5 text-ink/80">{universities[c.university].name}</td>
                         <td className="px-5 py-3.5 text-ink/80">{formatDuration(c.durationMonths)}</td>
                         <td className="px-5 py-3.5 font-semibold text-ink">{c.fee ? formatINR(c.fee) : "On request"}</td>
                         <td className="px-5 py-3.5 text-ink/80">{c.emiFrom ? `${formatINR(c.emiFrom)}/mo` : "-"}</td>

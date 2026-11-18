@@ -22,7 +22,6 @@ export const announcements = [
   "Free one-on-one career counselling",
   "No-cost EMI on most programs",
   "Scholarships up to 20% at Manipal universities",
-  "Pay After Placement option at Shoolini",
   "Help with education loans",
 ];
 

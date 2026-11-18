@@ -6,6 +6,17 @@ import type { NextConfig } from "next";
 const isPages = process.env.GITHUB_PAGES === "true";
 const basePath = isPages ? "/onegrowlearning-next" : "";
 
+// Old Shoolini and Welingkar program pages. Static stand-ins for the Pages build live in src/app/<slug>/.
+const removedProgramUrls = [
+  "/shoolini-online-mba/",
+  "/shoolini-online-mca/",
+  "/shoolini-online-ma/",
+  "/shoolini-online-bba/",
+  "/shoolini-online-bca/",
+  "/pg-in-entrepreneurship-welingker-institute/",
+  "/pg-media-entertainment-welingkar/",
+];
+
 const nextConfig: NextConfig = {
   // Keep the WordPress URL style (/about-us/) so existing links and rankings keep working.
   trailingSlash: true,
@@ -19,6 +30,8 @@ const nextConfig: NextConfig = {
             { source: "/career-support/", destination: "/", permanent: true },
             { source: "/success-stories/", destination: "/", permanent: true },
             { source: "/resource/", destination: "/", permanent: true },
+            // Programs of institutes that aren't Onegrow partners (only MUJ and SMU are)
+            ...removedProgramUrls.map((source) => ({ source, destination: "/popular-programs/", permanent: true })),
           ];
         },
       }),

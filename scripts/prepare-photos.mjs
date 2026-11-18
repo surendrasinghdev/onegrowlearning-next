@@ -21,7 +21,6 @@ const jobs = [
   ["2024/10/man-filming-with-professional-camera-new-movie-1024x1536-1.jpg", "media", 720, 480, { position: "centre" }],
   ["2024/10/young-female-university-graduate-academic-cap-sitting-table-smiling-pointing-left-future-lawyer-engineer-showing-idea_1120246-3907.jpg", "graduate", 720, 480, { position: "top" }],
   ["2024/10/300-SM1046013-e1723280521945.jpg", "student", 720, 480, { position: "top" }],
-  ["2024/10/two-businessmen-shaking-hands_1268500-9079.avif", "business", 720, 480, { position: "centre" }],
   ["2024/10/manipal-university.jpg", "campus-muj", 960, 600, { position: "centre" }],
   ["2024/10/About-Sikkim-Manipal-University.webp", "campus-smu", 960, 600, { position: "centre" }],
   ["2025/01/MBa.jpg", "degree-sample-muj", 960, 735, { fit: "contain" }],

@@ -156,7 +156,7 @@ export function Hero() {
             ))}
           </p>
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/70">
-            Manipal University Jaipur, Sikkim Manipal, Shoolini and WeSchool in one place. Free counselling, honest fee advice and
+            Manipal University Jaipur and Sikkim Manipal University, both NAAC A+. Free counselling, honest fee advice and
             help with EMI and education loans.
           </p>
 
@@ -313,7 +313,7 @@ export function Rankings({
 export function Advantage() {
   const small = [
     { icon: CounselIcon, title: "Free 1:1 counselling", body: "Honest advice on the right program, without any fee." },
-    { icon: BuildingIcon, title: "4 universities, one place", body: "Compare MUJ, SMU, Shoolini and WeSchool side by side." },
+    { icon: BuildingIcon, title: "Trusted Manipal universities", body: "Compare MUJ and SMU programs, fees and EMI side by side." },
     { icon: BookIcon, title: "Help with loans & paperwork", body: "We guide you through documents and education loans." },
     { icon: BriefcaseIcon, title: "Placement assistance", body: "Resume help, interview prep and job opportunities." },
   ];
@@ -358,10 +358,10 @@ export function Advantage() {
 
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand to-amber p-7 text-white md:col-span-1 lg:col-span-2">
             <PercentIcon className="size-8" />
-            <p className="mt-5 font-display text-3xl leading-tight font-semibold">Scholarships &amp; Pay After Placement</p>
+            <p className="mt-5 font-display text-3xl leading-tight font-semibold">Scholarships up to 20%</p>
             <p className="mt-3 max-w-md text-[15px] text-white/90">
               Scholarships of up to 20% at Manipal universities for defence personnel, government employees, differently-abled and
-              meritorious students. Shoolini lets you pay part of the fee after you get placed.
+              meritorious students. You also save when you pay the full fee upfront.
             </p>
           </div>
         </div>
@@ -378,7 +378,7 @@ const campusPhoto: Partial<Record<UniversityId, string>> = {
 };
 
 export function Universities() {
-  const order: UniversityId[] = ["muj", "smu", "shoolini", "welingkar"];
+  const order: UniversityId[] = ["muj", "smu"];
   return (
     <section className="py-20 sm:py-24">
       <div className={container}>
@@ -386,18 +386,18 @@ export function Universities() {
           <Eyebrow>Our partners</Eyebrow>
           <Title>Choose from universities you can trust</Title>
         </div>
-        <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-12 grid gap-5 md:grid-cols-2">
           {order.map((id) => {
             const u = universities[id];
             const n = courses.filter((c) => c.university === id).length;
             const photo = campusPhoto[id];
             return (
               <li key={id} className="group flex flex-col overflow-hidden rounded-3xl border border-line bg-white shadow-card">
-                <div className="relative h-40 overflow-hidden">
+                <div className="relative h-56 overflow-hidden sm:h-64">
                   {photo ? (
-                    <Image src={photo} alt={`${u.name} campus`} fill sizes="(min-width:1024px) 300px, 50vw" className="object-cover transition duration-500 group-hover:scale-105" />
+                    <Image src={photo} alt={`${u.name} campus`} fill sizes="(min-width:768px) 620px, 100vw" className="object-cover transition duration-500 group-hover:scale-105" />
                   ) : (
-                    <div className={`grid size-full place-items-center ${id === "shoolini" ? "bg-gradient-to-br from-[#4b2a8f] to-[#8a5cd6]" : "bg-gradient-to-br from-navy to-[#2b4fb8]"}`}>
+                    <div className={`grid size-full place-items-center bg-gradient-to-br from-navy to-[#2b4fb8]`}>
                       <span className="font-display text-3xl font-semibold text-white/90">{u.short}</span>
                     </div>
                   )}
@@ -409,7 +409,7 @@ export function Universities() {
                   {u.logo ? (
                     <Image src={u.logo.src} alt={u.name} width={u.logo.width} height={u.logo.height} className="h-10 w-auto self-start object-contain" />
                   ) : (
-                    <p className="flex h-10 items-center font-display text-xl font-semibold text-navy">{u.name.replace(" (WeSchool)", "")}</p>
+                    <p className="flex h-10 items-center font-display text-xl font-semibold text-navy">{u.name}</p>
                   )}
                   <p className="mt-2 text-sm text-muted">{u.location}</p>
                   <ul className="mt-4 space-y-1.5 text-sm">

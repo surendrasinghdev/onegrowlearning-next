@@ -37,7 +37,7 @@ Online Manipal pe full fee ek saath dene par extra discount bhi milta hai (UG/PG
 
 NRI aur foreign nationals ke fee tabs bhi isi source se naye bharne hain.
 
-### Shoolini University
+### Shoolini University (removed 18 Nov: not a partner)
 Shoolini ka fee model badal gaya hai. Ab "Regular fee - scholarship" hota hai, aur kuch courses me "Pay After Placement" option bhi hai. Site pe sirf per-semester fee hai, wo bhi purani.
 
 | Course | Site pe abhi (per semester) | Official regular fee | Standard offer (scholarship ke baad) | Pay After Placement offer | Source |
@@ -50,7 +50,7 @@ Shoolini ka fee model badal gaya hai. Ab "Regular fee - scholarship" hota hai, a
 
 Shoolini ki site in offers ko "limited period" bolti hai.
 
-## 2. Welingkar page (`/pg-in-entrepreneurship-welingker-institute/`)
+## 2. Welingkar page (removed 18 Nov: not a partner) (`/pg-in-entrepreneurship-welingker-institute/`)
 Is page pe WeSchool (Welingkar, Mumbai) ke **do alag programs mix ho gaye hain**:
 
 | Page ka hissa | Kis program ka hai |

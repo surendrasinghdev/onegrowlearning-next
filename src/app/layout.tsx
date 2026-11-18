@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     template: "%s | Onegrow Learning",
   },
   description:
-    "Compare UGC-entitled online MBA, MCA, BBA, BCA, B.Com and MA programs from Manipal University Jaipur, Sikkim Manipal, Shoolini and more. Free career counselling, EMI and education loan help.",
+    "Compare UGC-entitled online MBA, MCA, BBA, BCA, B.Com and MA programs from Manipal University Jaipur and Sikkim Manipal University. Free career counselling, EMI and education loan help.",
   openGraph: { siteName: site.name, type: "website", locale: "en_IN" },
 };
 

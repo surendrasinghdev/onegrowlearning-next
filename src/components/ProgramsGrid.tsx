@@ -23,8 +23,8 @@ export function ProgramsGrid() {
     );
   }, [level, uni, q]);
 
-  const levels: LevelFilter[] = ["all", "pg", "ug", "executive"];
-  const unis: UniFilter[] = ["all", "muj", "smu", "shoolini", "welingkar"];
+  const levels: LevelFilter[] = ["all", "pg", "ug"];
+  const unis: UniFilter[] = ["all", "muj", "smu"];
 
   return (
     <div>

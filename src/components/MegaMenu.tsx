@@ -12,9 +12,8 @@ const levelItems: { value: "all" | Level; label: string }[] = [
   { value: "all", label: "All degrees" },
   { value: "pg", label: levelLabels.pg },
   { value: "ug", label: levelLabels.ug },
-  { value: "executive", label: levelLabels.executive },
 ];
-const uniOrder: UniversityId[] = ["muj", "smu", "shoolini", "welingkar"];
+const uniOrder: UniversityId[] = ["muj", "smu"];
 
 // Order the degree cards so the most asked-for programs come first.
 const typeOrder = ["MBA", "MCA", "BBA", "BCA", "M.Com", "B.Com", "MA English", "MA Economics", "MA JMC", "MA Sociology", "MA Pol. Science", "BA", "PG Media", "PGP-EFMB"];
@@ -85,7 +84,7 @@ export function MegaMenu() {
 
   const types = degreeTypes(filter);
   const heading =
-    filter.kind === "uni" ? universities[filter.value].name.replace(" (WeSchool)", "") : filter.value === "all" ? "All degrees" : levelLabels[filter.value];
+    filter.kind === "uni" ? universities[filter.value].name : filter.value === "all" ? "All degrees" : levelLabels[filter.value];
 
   return (
     <div className="hidden lg:block">
@@ -127,7 +126,7 @@ export function MegaMenu() {
                   {uniOrder.map((u) => (
                     <FilterItem
                       key={u}
-                      label={universities[u].name.replace(" (WeSchool)", "")}
+                      label={universities[u].name}
                       count={courses.filter((c) => c.university === u).length}
                       active={sameFilter(filter, { kind: "uni", value: u })}
                       onSelect={() => setFilter({ kind: "uni", value: u })}
@@ -194,18 +193,15 @@ function FilterItem({ label, count, active, onSelect }: { label: string; count: 
 }
 
 function DegreeCard({ type: t, onNavigate }: { type: DegreeType; onNavigate: () => void }) {
-  const single = t.options.length === 1 ? t.options[0] : null;
+  // The whole card opens the first university's course; the university chips sit above it (z-10)
+  // and open that specific university's course.
   return (
-    <li className="group relative flex flex-col rounded-2xl bg-white p-4 ring-1 ring-line transition hover:shadow-card hover:ring-navy/15">
+    <li className="group relative flex flex-col rounded-2xl bg-white p-4 ring-1 ring-line transition hover:shadow-card hover:ring-navy/25">
       <span className="absolute top-0 right-0 rounded-tr-2xl rounded-bl-2xl bg-navy px-3 py-1.5 text-xs font-semibold text-white">{t.tag}</span>
       <p className="min-h-[2.75rem] pr-24 leading-snug font-semibold text-navy">
-        {single ? (
-          <Link href={courseHref(single)} onClick={onNavigate} className="hover:text-brand">
-            {t.name}
-          </Link>
-        ) : (
-          t.name
-        )}
+        <Link href={courseHref(t.options[0])} onClick={onNavigate} className="after:absolute after:inset-0 after:rounded-2xl group-hover:text-brand">
+          {t.name}
+        </Link>
       </p>
       <div className="mt-auto pt-4">
         <p className="text-xs text-muted">{t.options.length > 1 ? "Universities" : "University"}</p>
@@ -217,7 +213,7 @@ function DegreeCard({ type: t, onNavigate }: { type: DegreeType; onNavigate: () 
                 href={courseHref(c)}
                 onClick={onNavigate}
                 title={`${c.name}, ${universities[c.university].name}`}
-                className={`rounded-full px-2.5 py-1 text-xs font-bold ring-1 ring-black/5 transition hover:ring-navy/40 ${uniTone[c.university]}`}
+                className={`relative z-10 rounded-full px-2.5 py-1 text-xs font-bold ring-1 ring-black/5 transition hover:ring-2 hover:ring-navy/50 ${uniTone[c.university]}`}
               >
                 {universities[c.university].short}
               </Link>
@@ -255,14 +251,16 @@ export function MobileCourses({ onNavigate }: { onNavigate: () => void }) {
       </div>
       <ul className="mt-3 space-y-2">
         {types.map((t) => (
-          <li key={t.code} className="rounded-xl bg-white px-3 py-2.5 ring-1 ring-line">
+          <li key={t.code} className="relative rounded-xl bg-white px-3 py-2.5 ring-1 ring-line">
             <div className="flex items-center justify-between gap-2">
-              <span className="text-sm font-semibold text-navy">{t.name}</span>
+              <Link href={courseHref(t.options[0])} onClick={onNavigate} className="text-sm font-semibold text-navy after:absolute after:inset-0 after:rounded-xl">
+                {t.name}
+              </Link>
               <span className="shrink-0 rounded-md bg-navy px-2 py-0.5 text-[11px] font-semibold text-white">{t.tag}</span>
             </div>
             <div className="mt-2 flex flex-wrap gap-1.5">
               {t.options.map((c) => (
-                <Link key={c.slug} href={courseHref(c)} onClick={onNavigate} className={`rounded-full px-2.5 py-1 text-xs font-bold ${uniTone[c.university]}`}>
+                <Link key={c.slug} href={courseHref(c)} onClick={onNavigate} className={`relative z-10 rounded-full px-2.5 py-1 text-xs font-bold ${uniTone[c.university]}`}>
                   {universities[c.university].short}
                 </Link>
               ))}

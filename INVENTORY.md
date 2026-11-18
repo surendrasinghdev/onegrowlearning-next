@@ -86,9 +86,10 @@ MUJ/SMU course pages ka structure ek jaisa hai: hero + enquiry form, key facts (
 11. **Shoolini pages:** sab Enroll buttons MUJ ke BCA aur Political Science brochure form kholte hain. Shoolini MBA ka "Domain" BCA likha hai.
 12. Floating WhatsApp button (Chaty plugin) +91-9318405586 pe hai, naye site me bhi rakhna hai.
 
-## Decisions (17 Nov 2026)
+## Decisions (17-18 Nov 2026)
 - **Office address:** website pe nahi hai, nahi daalna. Contact page pe sirf phone, email, WhatsApp aur form.
 - **Career Support, Success Stories, Resource:** hata do (ye bilkul khali hain).
 - **Baaki koi page nahi hatana** jisme content hai aur jo live hai (Welingkar aur referral page bhi rahenge). Jo galtiyan hain, unhe official sources se online check karke theek karna hai. Corrections `CORRECTIONS.md` me source ke saath.
 - **Form leads:** email pe jaayengi.
 - **Leadership team:** nahi dikhani.
+- **Partners (18 Nov):** Onegrow partners only with Manipal University Jaipur and Sikkim Manipal University. The Shoolini (5) and Welingkar pages from the old site are not part of the new site; their URLs redirect to `/popular-programs/`.

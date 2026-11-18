@@ -25,8 +25,8 @@ import { ArrowRightIcon, ClockIcon, GraduationIcon, SparkIcon, WalletIcon } from
 
 type UniFilter = "all" | UniversityId;
 
-const levels: Level[] = ["pg", "ug", "executive"];
-const unis: UniFilter[] = ["all", "muj", "smu", "shoolini", "welingkar"];
+const levels: Level[] = ["pg", "ug"];
+const unis: UniFilter[] = ["all", "muj", "smu"];
 
 /** Other parts of the page can call this to jump to the programs section filtered by university. */
 export function showPrograms(uni: UniversityId) {
@@ -156,7 +156,7 @@ export function CourseCard({ course: c, grid }: { course: Course; grid?: boolean
               </span>
             ))}
           </div>
-          <span className={`absolute bottom-3 left-3 rounded-md px-2 py-1 text-[11px] font-bold ${uniTone[c.university]}`}>{u.name.replace(" (WeSchool)", "")}</span>
+          <span className={`absolute bottom-3 left-3 rounded-md px-2 py-1 text-[11px] font-bold ${uniTone[c.university]}`}>{u.name}</span>
         </div>
 
         <div className="flex flex-1 flex-col p-5">
